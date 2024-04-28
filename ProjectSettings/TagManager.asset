@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Wall
   - Path
   - Stair
   - FinishBox
+  - Brick
   layers:
   - Default
   - TransparentFX
@@ -16,7 +16,7 @@ TagManager:
   - Water
   - UI
   - Stair
-  - 
+  - Ground
   - 
   - 
   - 

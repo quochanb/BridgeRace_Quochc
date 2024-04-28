@@ -2,38 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : ColorObject
 {
-    public ColorType color;
-    public ColorData colorData;
-    public SkinnedMeshRenderer meshRenderer;
     [SerializeField] protected Animator anim;
-    [SerializeField] private Transform brickHolder;
-    [SerializeField] private GameObject brickPrefab;
+    [SerializeField] protected Brick brickPrefab;
+    [SerializeField] protected LayerMask stairLayer, groundLayer;
+    [SerializeField] protected Transform brickHolder;
+    [SerializeField] protected SkinnedMeshRenderer skinnedMesh;
 
-    private string currentAnim;
+    protected string currentAnim;
 
-    List<GameObject> brickList = new List<GameObject>();
+    List<Brick> brickList = new List<Brick>();
 
     //khoi tao cac thong so ban dau cua character
     public virtual void OnInit()
     {
-        color = (ColorType)Random.Range(1, 7);
-        ChangeColor(color);
-
+        this.ColorType = (ColorType)Random.Range(1, 7);
+        ChangeColor(ColorType);
+        ChangeAnim(Constants.ANIM_IDLE);
         transform.position = new Vector3(0f, 0.1f, -13f);
     }
 
     //goi khi muon huy 
     public virtual void OnDespawn()
     {
-
+        Destroy(gameObject);
     }
 
     //thu thap brick
     protected virtual void AddBrick()
     {
-        GameObject brick = Instantiate(brickPrefab, brickHolder);
+        Brick brick = Instantiate(brickPrefab, brickHolder);
         brick.transform.localPosition = new Vector3(0, brickList.Count * 0.3f, 0);
         brickList.Add(brick);
     }
@@ -43,7 +42,7 @@ public class Character : MonoBehaviour
     {
         if(brickList.Count > 0)
         {
-            GameObject brick = brickList[brickList.Count - 1];
+            Brick brick = brickList[brickList.Count - 1];
             brickList.Remove(brick);
             Destroy(brick);
         }
@@ -59,8 +58,36 @@ public class Character : MonoBehaviour
         brickList.Clear();
     }
 
+    //check ground
+    protected Vector3 CheckGround(Vector3 nextPoint)
+    {
+        RaycastHit hit;
+        if(Physics.Raycast(nextPoint, Vector3.down, out hit, 5f, groundLayer))
+        {
+            return hit.point + Vector3.up * 0.5f;
+        }
+        return Tf.position;
+    }
+
+    //check di chuyen
+    //protected bool CanMoving(Vector3 nextPoint)
+    //{
+    //    RaycastHit hit;
+    //    if(Physics.Raycast(nextPoint, Vector3.down, out hit, 5f, stairLayer))
+    //    {
+    //        if(brickList.Count == 0)
+    //        {
+    //            return false;
+    //        }
+    //        else
+    //        {
+    //            //ColorType stairColorType = hit.collider.GetComponents<ColorObject>();
+    //        }
+    //    }
+    //}
+
     //thay doi anim
-    protected virtual void ChangeAnim(string animName)
+    protected void ChangeAnim(string animName)
     {
         if (currentAnim != animName)
         {
@@ -70,10 +97,9 @@ public class Character : MonoBehaviour
         }
     }
 
-    //thay doi mau sac
-    public void ChangeColor(ColorType colorType)
+    //doi mau character
+    public override void ChangeColor(ColorType colorType)
     {
-        this.color = colorType;
-        meshRenderer.material = colorData.GetMat(colorType);
+        skinnedMesh.material = colorData.GetMat(colorType);
     }
 }
