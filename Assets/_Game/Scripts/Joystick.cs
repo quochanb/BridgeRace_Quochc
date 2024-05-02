@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Joystick : MonoBehaviour
 {
-    public Vector3 direction;
-    public delegate void JoystickDirection(Vector3 dir);
-    public JoystickDirection directionEvent;
+    public static Vector3 direction;
     [SerializeField] private GameObject joystick;
     [SerializeField] private RectTransform bg, knob;
     [SerializeField] private float knobRange;
@@ -23,7 +21,6 @@ public class Joystick : MonoBehaviour
     void OnEnable()
     {
         direction = Vector3.zero;
-        directionEvent?.Invoke(Vector3.zero);
     }
 
     void Update()
@@ -45,17 +42,14 @@ public class Joystick : MonoBehaviour
             //calculate position of knob
             knob.anchoredPosition = Vector3.ClampMagnitude((currentPos - startPos), knobRange) + startPos;
 
-            Vector3 currentDir = (currentPos - startPos).normalized;
-            currentDir.z = currentDir.y;
-            currentDir.y = 0;
-            direction = currentDir;
-            directionEvent?.Invoke(currentDir);
+            direction = (currentPos - startPos).normalized;
+            direction.z = direction.y;
+            direction.y = 0;
         }
         if(Input.GetMouseButtonUp(0))
         {
             joystick.SetActive(false);
             direction = Vector3.zero;
-            directionEvent?.Invoke(Vector3.zero);
         }
     }
 }
