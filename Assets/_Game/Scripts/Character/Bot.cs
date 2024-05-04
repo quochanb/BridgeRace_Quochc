@@ -4,8 +4,20 @@ using UnityEngine;
 
 public class Bot : Character
 {
-    private void Start()
+    private IState currentState;
+
+    public void ChangeState(IState newState)
     {
-        OnInit();
+        if(currentState != null)
+        {
+            currentState.OnExit(this);
+        }
+
+        currentState = newState;
+
+        if (currentState != null)
+        {
+            currentState.OnEnter(this);
+        }
     }
 }

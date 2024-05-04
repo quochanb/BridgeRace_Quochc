@@ -11,12 +11,12 @@ public class Stage : MonoBehaviour
 
     private BoxCollider boxCollider;
     private float spaceBrick = 3f;
-    private float[] respawnTime;
 
     List<Brick> bricks = new List<Brick>();
     List<Vector3> emptyBrickPoints = new List<Vector3>();
+    List<Vector3AndTime> emptyList = new List<Vector3AndTime>();
 
-    private void Start()
+    private void Awake()
     {
         OnInit();
         boxCollider = GetComponent<BoxCollider>();
@@ -24,29 +24,19 @@ public class Stage : MonoBehaviour
 
     private void Update()
     {
-        //for emtylist duyet tu cuoi ve dau
-
-
-        //for (int i = emptyBrickPoints.Count; i > 0; i--)
-        //{
-        //    respawnTime[i] -= Time.deltaTime;
-        //    if (respawnTime[i] < 0)
-        //    {
-        //        UpdateBrick(emptyBrickPoints[i]);
-        //    }
-        //}
-
-
-        //        emtylist[indexer].time -= Time.deltaTime
-        //    if (emtylist[indexer].time < 0)
-        //    {
-        //        sinh ra o vi tri emtylist[indexer].postion;
-        //    }
+        for (int i = emptyList.Count - 1; i >= 0; i--)
+        {
+            emptyList[i].RespawnTime -= Time.deltaTime;
+            if (emptyList[i].RespawnTime < 0)
+            {
+                SpawnBrick(emptyList[i].Position);
+            }
+        }
     }
 
+    //khoi tao vi tri cac vien gach
     public void OnInit()
     {
-        //khoi tao cac vi tri sinh ra gach
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -57,15 +47,9 @@ public class Stage : MonoBehaviour
                 emptyBrickPoints.Add(new Vector3(xOffset + i * spaceBrick, 0.3f, yOffset + j * spaceBrick));
             }
         }
-
-        //khoi tao thoi gian sinh gach
-        respawnTime = new float[emptyBrickPoints.Count];
-        for(int i = 0;i < respawnTime.Length; i++)
-        {
-            respawnTime[i] = Random.Range(1, 4);
-        }
     }
 
+    //tao va them gach vao list
     public void SpawnBrick(Vector3 position)
     {
         position = GetRandomEmptyPosition();
@@ -81,26 +65,32 @@ public class Stage : MonoBehaviour
         emptyBrickPoints.Remove(position);
     }
 
+    //xoa gach khoi list
     public void DespawnBrick(Brick b)
     {
         bricks.Remove(b);
-        emptyBrickPoints.Add(b.GetBrickPosition());
-        Debug.Log("pos: " + b.GetBrickPosition());
     }
 
+    //lay ra vi tri trong ngau nhien
     private Vector3 GetRandomEmptyPosition()
     {
         return emptyBrickPoints[Random.Range(0, emptyBrickPoints.Count)];
     }
 
+    //them vi tri ko co gach vao list moi
+    public void AddEmptyBrickPoint(Vector3 position, float time)
+    {
+        emptyList.Add(new Vector3AndTime(position, time));
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
-            for(int i = 0; i < emptyBrickPoints.Count; i++)
+            for (int i = emptyBrickPoints.Count - 1; i >= 0; i--)
             {
                 SpawnBrick(emptyBrickPoints[i]);
+
             }
             boxCollider.enabled = false;
             other.GetComponent<Character>().stage = this;

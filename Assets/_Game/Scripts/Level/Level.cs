@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    public Transform[] startPoints;
+    [SerializeField] private Transform[] startPoints;
+    [SerializeField] private Transform finishPoint;
+
 
     public int GetIndex()
     {
