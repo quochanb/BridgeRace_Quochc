@@ -54,7 +54,7 @@ public class Stage : MonoBehaviour
                 float xOffset = -(width - 1) * spaceBrick / 2f;
                 float yOffset = -(height - 1) * spaceBrick / 2f;
 
-                emptyBrickPoints.Add(new Vector3(xOffset + i * spaceBrick, 0.2f, yOffset + j * spaceBrick));
+                emptyBrickPoints.Add(new Vector3(xOffset + i * spaceBrick, 0.3f, yOffset + j * spaceBrick));
             }
         }
 
@@ -66,28 +66,26 @@ public class Stage : MonoBehaviour
         }
     }
 
-    public void SpawnBrick()
+    public void SpawnBrick(Vector3 position)
     {
-        for(int i = 0; i < emptyBrickPoints.Count; i++)
-        {
-            Vector3 position = GetRandomEmptyPosition();
+        position = GetRandomEmptyPosition();
 
-            Brick brick = Instantiate(prefab, position, Quaternion.identity, spawnBrickPoint);
+        Brick brick = Instantiate(prefab, position, Quaternion.identity, spawnBrickPoint);
 
-            brick.ColorType = (ColorType)Random.Range(1, 7);
-            brick.ChangeColor(brick.ColorType);
+        brick.ColorType = (ColorType)Random.Range(1, 7);
+        brick.ChangeColor(brick.ColorType);
 
-            brick.stage = this;
-            bricks.Add(brick);
+        brick.stage = this;
+        bricks.Add(brick);
 
-            emptyBrickPoints.Remove(position);
-        }
+        emptyBrickPoints.Remove(position);
     }
 
-    public void DespawnBrick()
+    public void DespawnBrick(Brick b)
     {
-        Brick b = bricks[bricks.Count - 1];
         bricks.Remove(b);
+        emptyBrickPoints.Add(b.GetBrickPosition());
+        Debug.Log("pos: " + b.GetBrickPosition());
     }
 
     private Vector3 GetRandomEmptyPosition()
@@ -100,7 +98,10 @@ public class Stage : MonoBehaviour
     {
         if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
-            SpawnBrick();
+            for(int i = 0; i < emptyBrickPoints.Count; i++)
+            {
+                SpawnBrick(emptyBrickPoints[i]);
+            }
             boxCollider.enabled = false;
             other.GetComponent<Character>().stage = this;
         }
