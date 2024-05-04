@@ -10,17 +10,18 @@ public class Character : ColorObject
     [SerializeField] protected Transform brickHolder;
     [SerializeField] protected SkinnedMeshRenderer skinnedMesh;
 
+    List<Brick> brickList = new List<Brick>();
     protected string currentAnim;
 
-    List<Brick> brickList = new List<Brick>();
+    public Stage stage;
 
     //khoi tao cac thong so ban dau cua character
     public virtual void OnInit()
     {
-        this.ColorType = (ColorType)Random.Range(1, 7);
+        ColorType = (ColorType)Random.Range(1,7);
         ChangeColor(ColorType);
         ChangeAnim(Constants.ANIM_IDLE);
-        transform.position = new Vector3(0f, 0.2f, -13f);
+        transform.position = new Vector3(0f, 0.15f, -13f);
     }
 
     //goi khi muon huy 
@@ -33,25 +34,26 @@ public class Character : ColorObject
     protected void AddBrick()
     {
         Brick brick = Instantiate(brickPrefab, brickHolder);
-        brick.transform.localPosition = new Vector3(0, brickList.Count * 0.3f, 0);
+        brick.ChangeColor(ColorType);
+        brick.transform.localPosition = new Vector3(0, brickList.Count * 0.33f, 0);
         brickList.Add(brick);
     }
 
     //xoa brick di
     protected void RemoveBrick()
     {
-        if(brickList.Count > 0)
+        if (brickList.Count > 0)
         {
             Brick brick = brickList[brickList.Count - 1];
             brickList.Remove(brick);
-            Destroy(brick);
+            Destroy(brick.gameObject);
         }
     }
 
     //xoa toan bo brick
     protected void ClearBrick()
     {
-        foreach(var brick in brickList)
+        foreach (var brick in brickList)
         {
             Destroy(brick);
         }
@@ -62,29 +64,53 @@ public class Character : ColorObject
     protected Vector3 CheckGround(Vector3 nextPoint)
     {
         RaycastHit hit;
-        if(Physics.Raycast(nextPoint, Vector3.down, out hit, 2f, groundLayer))
+        if (Physics.Raycast(nextPoint, Vector3.down, out hit, 5f, groundLayer))
         {
-            return hit.point + Vector3.up * 0.5f;
+            return hit.point + Vector3.up * 0.3f;
         }
         return Tf.position;
     }
 
     //check di chuyen
-    //protected bool CanMoving(Vector3 nextPoint)
-    //{
-    //    RaycastHit hit;
-    //    if(Physics.Raycast(nextPoint, Vector3.down, out hit, 5f, stairLayer))
-    //    {
-    //        if(brickList.Count == 0)
-    //        {
-    //            return false;
-    //        }
-    //        else
-    //        {
-    //            //ColorType stairColorType = hit.collider.GetComponents<ColorObject>();
-    //        }
-    //    }
-    //}
+    protected bool CanMove(Vector3 nextPoint)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(nextPoint + new Vector3(0, 1, 1), Vector3.down, out hit, 5f, stairLayer))
+        {
+            //character dang di len
+            if (Tf.forward.z > 0)
+            {
+                ColorObject stairColor = hit.collider.GetComponent<ColorObject>();
+                //stair cung mau
+                if (stairColor.ColorType == ColorType)
+                {
+                    return true;
+                }
+                //stair khac mau
+                else
+                {
+                    //truong hop het gach
+                    if (brickList.Count == 0)
+                    {
+                        return false;
+                    }
+                    //truong hop con gach
+                    else
+                    {
+                        RemoveBrick();
+                        stairColor.ChangeColor(ColorType);
+                        return true;
+                    }
+                }
+            }
+            //character di xuong
+            else
+            {
+                return true;
+            }
+        }
+        return true;
+    }
 
     //thay doi anim
     protected void ChangeAnim(string animName)
@@ -101,5 +127,14 @@ public class Character : ColorObject
     public override void ChangeColor(ColorType colorType)
     {
         skinnedMesh.material = colorData.GetMat(colorType);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(Constants.TAG_BRICK) && other.GetComponent<ColorObject>().ColorType == ColorType)
+        {
+            AddBrick();
+            Destroy(other.gameObject);
+        }
     }
 }

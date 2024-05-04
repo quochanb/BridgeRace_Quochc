@@ -9,11 +9,6 @@ public class LevelManager : Singleton<LevelManager>
     public static Player player;
 
 
-    public void Start()
-    {
-        
-    }
-
     //khoi tao trang thai bat dau game
     public void OnInit()
     {

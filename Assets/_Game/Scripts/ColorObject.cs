@@ -6,7 +6,7 @@ public abstract class ColorObject : GameUnit
 {
     [SerializeField] protected ColorData colorData;
     private MeshRenderer meshRenderer;
-    protected ColorType color;
+    protected ColorType colorType;
 
     private void Awake()
     {
@@ -15,13 +15,14 @@ public abstract class ColorObject : GameUnit
 
     public ColorType ColorType
     {
-        get { return color; }
-        set { color = value; }
+        get { return colorType; }
+        set { colorType = value; }
     }
 
     //thay doi mau sac
-    public virtual void ChangeColor(ColorType colorType)
+    public virtual void ChangeColor(ColorType color)
     {
-        meshRenderer.material = colorData.GetMat(colorType);
+        colorType = color;
+        meshRenderer.material = colorData.GetMat(color);
     }
 }

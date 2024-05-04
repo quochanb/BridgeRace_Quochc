@@ -15,24 +15,17 @@ public class Player : Character
         if (Input.GetMouseButton(0))
         {
             Vector3 nextPos = Tf.position + Joystick.direction * speed * Time.deltaTime;
-            if (true)
+            
+            if (CanMove(nextPos) && Joystick.direction != Vector3.zero)
             {
                 Tf.position = CheckGround(nextPos);
-            }
-            if(Joystick.direction != Vector3.zero)
-            {
                 Tf.rotation = Quaternion.LookRotation(Joystick.direction);
+                ChangeAnim(Constants.ANIM_RUN);
             }
-            ChangeAnim(Constants.ANIM_RUN);
         }
         if (Input.GetMouseButtonUp(0))
         {
             ChangeAnim(Constants.ANIM_IDLE);
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-
     }
 }
