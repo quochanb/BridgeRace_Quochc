@@ -11,6 +11,8 @@ public class Stage : MonoBehaviour
 
     private BoxCollider boxCollider;
     private float spaceBrick = 3f;
+    private int[] brickCounts = new int[6];
+    private int totalBricks = 0;
 
     List<Brick> bricks = new List<Brick>();
     List<Vector3> emptyBrickPoints = new List<Vector3>();
@@ -51,34 +53,44 @@ public class Stage : MonoBehaviour
         }
     }
 
-    //tao va them gach vao list
+    //spawn brick
     public void SpawnBrick(Vector3 position)
     {
+        //lay random vi tri
         position = GetRandomEmptyPosition();
         Brick brick = Instantiate(prefab, position, Quaternion.identity, this.spawnBrickPoint);
-
-        brick.ColorType = (ColorType)Random.Range(1, 7);
-        brick.ChangeColor(brick.ColorType);
-
+        //set lai local position
+        brick.Tf.localPosition = position;
+        //random mau cho brick
+        ColorType colorType = (ColorType)Random.Range(1, 7);
+        //brick.ColorType = colorType;
+        brick.ChangeColor(colorType);
+        //gan brick cho stage hien tai
         brick.stage = this;
+        //add brick vao list de quan ly
         bricks.Add(brick);
-
+        //xoa vi tri vua sinh ra brick trong empty list
         emptyBrickPoints.Remove(position);
+
+        //tang so luong brick tung mau
+        //brickCounts[(int)colorType]++;
+        totalBricks++;
     }
 
-    //xoa gach khoi list
+    //xoa brick khoi list
     public void DespawnBrick(Brick b)
     {
         bricks.Remove(b);
     }
 
-    //them vi tri ko co gach vao list moi
+    //them vi tri ko co brick vao list moi va list ban dau
     public void AddEmptyBrickPoint(Vector3 position, float time)
     {
         emptyList.Add(new Vector3AndTime(position, time));
         emptyBrickPoints.Add(position);
     }
 
+    //lay ra vi tri brick co mau chi dinh
     public Vector3 GetBrickPoint(ColorType colorType)
     {
         for (int i = 0; i < bricks.Count; i++)
@@ -91,30 +103,41 @@ public class Stage : MonoBehaviour
         return Vector3.zero;
     }
 
-    //lay ra vi tri trong ngau nhien
+    //lay vi tri ngau nhien de spawn brick
     private Vector3 GetRandomEmptyPosition()
     {
         return emptyBrickPoints[Random.Range(0, emptyBrickPoints.Count)];
     }
 
+    //lay random mau cho brick
+    //private ColorType GetRandomBrickColor()
+    //{
+    //    List<ColorType> saveColor = new List<ColorType>();
+    //    for (int i = 0; i < brickCounts.Length; i++)
+    //    {
+    //        if (brickCounts[i] == 0)
+    //            saveColor.Add((ColorType)(i + 1));
+    //        Debug.Log((ColorType)(i + 1));
+    //    }
+    //    return saveColor[Random.Range(0, saveColor.Count)];
+    //}
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
-            Debug.Log("collision");
             other.GetComponent<Character>().stage = this;
             for (int i = emptyBrickPoints.Count - 1; i >= 0; i--)
             {
                 SpawnBrick(emptyBrickPoints[i]);
-
             }
-            
+
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
+        if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
             this.boxCollider.enabled = false;
         }

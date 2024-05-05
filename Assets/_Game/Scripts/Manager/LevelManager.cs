@@ -5,20 +5,21 @@ using UnityEngine;
 public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] Level[] levels;
+    [SerializeField] Character[] characters;
     public Level currentLevel;
-    public static Player player;
+    public Player player;
 
+    private CameraFollow cameraFollow;
 
     //khoi tao trang thai bat dau game
     public void OnInit()
     {
-        player.OnInit();
+        
     }
 
     //reset trang thai khi ket thuc game
     public void OnReset()
     {
-        player.OnDespawn();
 
     }
 
@@ -29,6 +30,7 @@ public class LevelManager : Singleton<LevelManager>
         {
             Destroy(currentLevel.gameObject);
         }
-        currentLevel = Instantiate(levels[level]);
+        
+        currentLevel = Instantiate(levels[level], Vector3.zero, Quaternion.identity);
     }
 }

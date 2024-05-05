@@ -16,8 +16,10 @@ public class Character : ColorObject
     public Stage stage;
     public Level level;
 
-    private void Start()
+    private void Awake()
     {
+        level = FindObjectOfType<Level>();
+        stage = FindObjectOfType<Stage>();
         OnInit();
     }
 
@@ -25,9 +27,8 @@ public class Character : ColorObject
     public virtual void OnInit()
     {
         RandomColor();
-        //RandomStartPoint();
+        RandomStartPoint();
         ChangeAnim(Constants.ANIM_IDLE);
-        transform.position = new Vector3(0f, 0.15f, -13f);
     }
 
     //random start point cho character
@@ -50,8 +51,8 @@ public class Character : ColorObject
         if (!saveColor.Contains(ColorType))
         {
             saveColor.Add(ColorType);
-            ChangeColor(ColorType);
         }
+        ChangeColor(saveColor[saveColor.Count - 1]);
     }
 
     //goi khi muon huy 

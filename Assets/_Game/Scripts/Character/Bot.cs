@@ -14,10 +14,10 @@ public class Bot : Character
     {
         if (currentState != null)
         {
-            //Debug.Log(currentState);
             currentState.OnExecute(this);
         }
     }
+
     public override void OnInit()
     {
         base.OnInit();
@@ -30,6 +30,7 @@ public class Bot : Character
         if (IsDestination)
         {
             Vector3 destination = stage.GetBrickPoint(this.ColorType);
+            //Debug.Log(destination);
             SetDestination(destination);
         }
         ChangeAnim(Constants.ANIM_RUN);
