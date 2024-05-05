@@ -14,14 +14,44 @@ public class Character : ColorObject
     protected string currentAnim;
 
     public Stage stage;
+    public Level level;
+
+    private void Start()
+    {
+        OnInit();
+    }
 
     //khoi tao cac thong so ban dau cua character
     public virtual void OnInit()
     {
-        ColorType = (ColorType)Random.Range(1,7);
-        ChangeColor(ColorType);
+        RandomColor();
+        //RandomStartPoint();
         ChangeAnim(Constants.ANIM_IDLE);
         transform.position = new Vector3(0f, 0.15f, -13f);
+    }
+
+    //random start point cho character
+    public void RandomStartPoint()
+    {
+        List<Vector3> points = new List<Vector3>();
+        Vector3 randomPoint = level.GetStartPoint();
+        if (!points.Contains(randomPoint))
+        {
+            points.Add(randomPoint);
+            Tf.position = randomPoint;
+        }
+    }
+
+    //random mau cho character
+    private void RandomColor()
+    {
+        List<ColorType> saveColor = new List<ColorType>();
+        ColorType = (ColorType)Random.Range(1, 7);
+        if (!saveColor.Contains(ColorType))
+        {
+            saveColor.Add(ColorType);
+            ChangeColor(ColorType);
+        }
     }
 
     //goi khi muon huy 
@@ -53,7 +83,7 @@ public class Character : ColorObject
     //xoa toan bo brick
     protected void ClearBrick()
     {
-        foreach (var brick in brickList)
+        foreach (Brick brick in brickList)
         {
             Destroy(brick);
         }
@@ -66,7 +96,7 @@ public class Character : ColorObject
         RaycastHit hit;
         if (Physics.Raycast(nextPoint, Vector3.down, out hit, 5f, groundLayer))
         {
-            return hit.point + Vector3.up * 0.3f;
+            return hit.point + Vector3.up * 0.1f;
         }
         return Tf.position;
     }
@@ -110,6 +140,12 @@ public class Character : ColorObject
             }
         }
         return true;
+    }
+
+    //lay ra so luong gach cua character
+    public int GetAmountBrick()
+    {
+        return brickList.Count;
     }
 
     //thay doi anim

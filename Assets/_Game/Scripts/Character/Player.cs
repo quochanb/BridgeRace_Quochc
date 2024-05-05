@@ -6,10 +6,6 @@ public class Player : Character
 {
     [SerializeField] private float speed = 5f;
 
-    void Start()
-    {
-        OnInit();
-    }
     void Update()
     {
         if (Input.GetMouseButton(0))

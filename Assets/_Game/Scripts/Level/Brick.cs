@@ -15,12 +15,15 @@ public class Brick : ColorObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
+        if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
-            spawnPosition = GetSpawnPosition();
-            respawnTime = Random.Range(3, 6);
-            stage.AddEmptyBrickPoint(spawnPosition, respawnTime);
-            stage.DespawnBrick(this);
+            if (other.GetComponent<ColorObject>().ColorType == ColorType)
+            {
+                spawnPosition = GetSpawnPosition();
+                respawnTime = Random.Range(5, 8);
+                stage.AddEmptyBrickPoint(spawnPosition, respawnTime);
+                stage.DespawnBrick(this);
+            }
         }
     }
 }

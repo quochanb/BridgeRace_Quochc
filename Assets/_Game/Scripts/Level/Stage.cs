@@ -26,10 +26,12 @@ public class Stage : MonoBehaviour
     {
         for (int i = emptyList.Count - 1; i >= 0; i--)
         {
+            //giam time qua cac frame
             emptyList[i].RespawnTime -= Time.deltaTime;
             if (emptyList[i].RespawnTime < 0)
             {
                 SpawnBrick(emptyList[i].Position);
+                emptyList.RemoveAt(i);
             }
         }
     }
@@ -53,8 +55,7 @@ public class Stage : MonoBehaviour
     public void SpawnBrick(Vector3 position)
     {
         position = GetRandomEmptyPosition();
-
-        Brick brick = Instantiate(prefab, position, Quaternion.identity, spawnBrickPoint);
+        Brick brick = Instantiate(prefab, position, Quaternion.identity, this.spawnBrickPoint);
 
         brick.ColorType = (ColorType)Random.Range(1, 7);
         brick.ChangeColor(brick.ColorType);
@@ -71,29 +72,51 @@ public class Stage : MonoBehaviour
         bricks.Remove(b);
     }
 
+    //them vi tri ko co gach vao list moi
+    public void AddEmptyBrickPoint(Vector3 position, float time)
+    {
+        emptyList.Add(new Vector3AndTime(position, time));
+        emptyBrickPoints.Add(position);
+    }
+
+    public Vector3 GetBrickPoint(ColorType colorType)
+    {
+        for (int i = 0; i < bricks.Count; i++)
+        {
+            if (bricks[i].ColorType == colorType)
+            {
+                return bricks[i].Tf.position;
+            }
+        }
+        return Vector3.zero;
+    }
+
     //lay ra vi tri trong ngau nhien
     private Vector3 GetRandomEmptyPosition()
     {
         return emptyBrickPoints[Random.Range(0, emptyBrickPoints.Count)];
     }
 
-    //them vi tri ko co gach vao list moi
-    public void AddEmptyBrickPoint(Vector3 position, float time)
-    {
-        emptyList.Add(new Vector3AndTime(position, time));
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
+            Debug.Log("collision");
+            other.GetComponent<Character>().stage = this;
             for (int i = emptyBrickPoints.Count - 1; i >= 0; i--)
             {
                 SpawnBrick(emptyBrickPoints[i]);
 
             }
-            boxCollider.enabled = false;
-            other.GetComponent<Character>().stage = this;
+            
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
+        {
+            this.boxCollider.enabled = false;
         }
     }
 }
