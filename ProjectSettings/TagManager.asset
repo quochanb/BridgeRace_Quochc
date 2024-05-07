@@ -9,6 +9,7 @@ TagManager:
   - FinishBox
   - Brick
   - Bot
+  - Stage
   layers:
   - Default
   - TransparentFX

@@ -8,7 +8,7 @@ public class CollectState : IState
     int botBrick;
     public void OnEnter(Bot bot)
     {
-        targetBrick = Random.Range(3, 9);
+        targetBrick = bot.TargetBrick;
         botBrick = bot.GetAmountBrick();
     }
 

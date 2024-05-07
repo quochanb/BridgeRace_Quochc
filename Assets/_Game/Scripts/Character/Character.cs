@@ -10,11 +10,12 @@ public class Character : ColorObject
     [SerializeField] protected Transform brickHolder;
     [SerializeField] protected SkinnedMeshRenderer skinnedMesh;
 
-    List<Brick> brickList = new List<Brick>();
     protected string currentAnim;
 
     public Stage stage;
     public Level level;
+
+    List<Brick> brickList = new List<Brick>();
 
     private void Awake()
     {
@@ -26,33 +27,7 @@ public class Character : ColorObject
     //khoi tao cac thong so ban dau cua character
     public virtual void OnInit()
     {
-        RandomColor();
-        RandomStartPoint();
         ChangeAnim(Constants.ANIM_IDLE);
-    }
-
-    //random start point cho character
-    public void RandomStartPoint()
-    {
-        List<Vector3> points = new List<Vector3>();
-        Vector3 randomPoint = level.GetStartPoint();
-        if (!points.Contains(randomPoint))
-        {
-            points.Add(randomPoint);
-            Tf.position = randomPoint;
-        }
-    }
-
-    //random mau cho character
-    private void RandomColor()
-    {
-        List<ColorType> saveColor = new List<ColorType>();
-        ColorType = (ColorType)Random.Range(1, 7);
-        if (!saveColor.Contains(ColorType))
-        {
-            saveColor.Add(ColorType);
-        }
-        ChangeColor(saveColor[saveColor.Count - 1]);
     }
 
     //goi khi muon huy 
@@ -97,7 +72,7 @@ public class Character : ColorObject
         RaycastHit hit;
         if (Physics.Raycast(nextPoint, Vector3.down, out hit, 5f, groundLayer))
         {
-            return hit.point + Vector3.up * 0.1f;
+            return hit.point + Vector3.up * 0.3f;
         }
         return Tf.position;
     }

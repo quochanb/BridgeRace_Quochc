@@ -10,7 +10,7 @@ public class Brick : ColorObject
 
     public Vector3 GetSpawnPosition()
     {
-        return transform.position;
+        return transform.localPosition;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,7 +20,7 @@ public class Brick : ColorObject
             if (other.GetComponent<ColorObject>().ColorType == ColorType)
             {
                 spawnPosition = GetSpawnPosition();
-                respawnTime = Random.Range(5, 8);
+                respawnTime = Random.Range(5, 15);
                 stage.AddEmptyBrickPoint(spawnPosition, respawnTime);
                 stage.DespawnBrick(this);
             }

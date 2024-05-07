@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,19 +10,19 @@ public class Stage : MonoBehaviour
     [SerializeField] private float width, height;
     [SerializeField] private Transform spawnBrickPoint;
 
-    private BoxCollider boxCollider;
     private float spaceBrick = 3f;
-    private int[] brickCounts = new int[6];
-    private int totalBricks = 0;
+    private bool isCollided = false;
+    private ColorType color;
+    private int[] brickCount = new int[6];
 
     List<Brick> bricks = new List<Brick>();
     List<Vector3> emptyBrickPoints = new List<Vector3>();
     List<Vector3AndTime> emptyList = new List<Vector3AndTime>();
+    List<ColorType> listColor = new List<ColorType>();
 
     private void Awake()
     {
         OnInit();
-        boxCollider = GetComponent<BoxCollider>();
     }
 
     private void Update()
@@ -62,9 +63,9 @@ public class Stage : MonoBehaviour
         //set lai local position
         brick.Tf.localPosition = position;
         //random mau cho brick
-        ColorType colorType = (ColorType)Random.Range(1, 7);
-        //brick.ColorType = colorType;
-        brick.ChangeColor(colorType);
+        int index = Random.Range(0, listColor.Count);
+        color = listColor[index];
+        brick.ChangeColor(color);
         //gan brick cho stage hien tai
         brick.stage = this;
         //add brick vao list de quan ly
@@ -72,15 +73,22 @@ public class Stage : MonoBehaviour
         //xoa vi tri vua sinh ra brick trong empty list
         emptyBrickPoints.Remove(position);
 
-        //tang so luong brick tung mau
-        //brickCounts[(int)colorType]++;
-        totalBricks++;
+        brickCount[(int)color]++;
+        if (brickCount[(int)color] >= width*height/5-1)
+        {
+            listColor.Remove(color);
+        }
     }
 
     //xoa brick khoi list
     public void DespawnBrick(Brick b)
     {
         bricks.Remove(b);
+        brickCount[(int)b.ColorType]--;
+        if(!listColor.Contains(b.ColorType))
+        {
+            listColor.Add(b.ColorType);
+        }    
     }
 
     //them vi tri ko co brick vao list moi va list ban dau
@@ -91,16 +99,29 @@ public class Stage : MonoBehaviour
     }
 
     //lay ra vi tri brick co mau chi dinh
-    public Vector3 GetBrickPoint(ColorType colorType)
+    public List<Vector3> GetBrickPoint(ColorType colorType)
     {
+        List<Vector3> list = new List<Vector3>();
         for (int i = 0; i < bricks.Count; i++)
         {
             if (bricks[i].ColorType == colorType)
             {
-                return bricks[i].Tf.position;
+                list.Add(bricks[i].Tf.position);
+                //Debug.Log(bricks[i].Tf.position);
             }
         }
-        return Vector3.zero;
+        
+        return list;
+    }
+
+    public void GetColorCharacter(ColorType colorType)
+    {
+        if (!listColor.Contains(colorType))
+        {
+            listColor.Add(colorType);
+            Debug.Log(listColor.Count);
+            Debug.Log(colorType);
+        }
     }
 
     //lay vi tri ngau nhien de spawn brick
@@ -109,29 +130,22 @@ public class Stage : MonoBehaviour
         return emptyBrickPoints[Random.Range(0, emptyBrickPoints.Count)];
     }
 
-    //lay random mau cho brick
-    //private ColorType GetRandomBrickColor()
-    //{
-    //    List<ColorType> saveColor = new List<ColorType>();
-    //    for (int i = 0; i < brickCounts.Length; i++)
-    //    {
-    //        if (brickCounts[i] == 0)
-    //            saveColor.Add((ColorType)(i + 1));
-    //        Debug.Log((ColorType)(i + 1));
-    //    }
-    //    return saveColor[Random.Range(0, saveColor.Count)];
-    //}
-
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
-            other.GetComponent<Character>().stage = this;
-            for (int i = emptyBrickPoints.Count - 1; i >= 0; i--)
-            {
-                SpawnBrick(emptyBrickPoints[i]);
-            }
+            isCollided = true;
 
+            this.GetColorCharacter(other.GetComponent<Character>().ColorType);
+            if (isCollided)
+            {
+                other.GetComponent<Character>().stage = this;
+                for (int i = emptyBrickPoints.Count - 1; i >= 0 && listColor.Count !=0 ; i--)
+                {
+                    SpawnBrick(emptyBrickPoints[i]);
+                }
+            }
         }
     }
 
@@ -139,7 +153,8 @@ public class Stage : MonoBehaviour
     {
         if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
-            this.boxCollider.enabled = false;
+            isCollided = false;
         }
     }
+
 }
