@@ -7,7 +7,8 @@ public class BuildState : IState
     int botBrick;
     public void OnEnter(Bot bot)
     {
-        botBrick = bot.GetAmountBrick();
+        botBrick = bot.GetBrickAmount();
+        Debug.Log(botBrick);
     }
 
     public void OnExecute(Bot bot)

@@ -5,13 +5,8 @@ using UnityEngine;
 public abstract class ColorObject : GameUnit
 {
     [SerializeField] protected ColorData colorData;
-    private MeshRenderer meshRenderer;
-    protected ColorType colorType;
 
-    private void Awake()
-    {
-        meshRenderer = GetComponent<MeshRenderer>();
-    }
+    protected ColorType colorType;
 
     public ColorType ColorType
     {
@@ -23,6 +18,5 @@ public abstract class ColorObject : GameUnit
     public virtual void ChangeColor(ColorType color)
     {
         colorType = color;
-        meshRenderer.material = colorData.GetMat(color);
     }
 }

@@ -8,6 +8,13 @@ public class Brick : ColorObject
     public Vector3 spawnPosition;
     public float respawnTime;
 
+    private MeshRenderer meshRenderer;
+
+    private void Awake()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+
     public Vector3 GetSpawnPosition()
     {
         return transform.localPosition;
@@ -25,6 +32,12 @@ public class Brick : ColorObject
                 stage.DespawnBrick(this);
             }
         }
+    }
+
+    public override void ChangeColor(ColorType color)
+    {
+        base.ChangeColor(color);
+        meshRenderer.material = colorData.GetMat(colorType);
     }
 }
 

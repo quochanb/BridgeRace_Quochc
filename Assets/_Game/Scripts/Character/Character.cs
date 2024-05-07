@@ -119,7 +119,7 @@ public class Character : ColorObject
     }
 
     //lay ra so luong gach cua character
-    public int GetAmountBrick()
+    public int GetBrickAmount()
     {
         return brickList.Count;
     }
@@ -138,6 +138,7 @@ public class Character : ColorObject
     //doi mau character
     public override void ChangeColor(ColorType colorType)
     {
+        base.ChangeColor(colorType);
         skinnedMesh.material = colorData.GetMat(colorType);
     }
 

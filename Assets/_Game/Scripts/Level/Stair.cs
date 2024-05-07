@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class Stair : ColorObject
 {
-    private void Start()
+    private MeshRenderer meshRenderer;
+
+    private void Awake()
     {
+        meshRenderer = GetComponent<MeshRenderer>();
         ChangeColor(ColorType.None);
+    }
+
+    public override void ChangeColor(ColorType color)
+    {
+        base.ChangeColor(color);
+        meshRenderer.material = colorData.GetMat(colorType);
     }
 }

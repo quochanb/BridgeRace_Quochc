@@ -25,10 +25,8 @@ public class LevelManager : Singleton<LevelManager>
     public void OnInit()
     {
         OnLoadLevel(0);
-        
-        GetCharaterColor();
+
         OnLoadCharacter();
-        Debug.Log(characterColor.Count);
     }
 
     //reset trang thai khi ket thuc game
@@ -49,8 +47,11 @@ public class LevelManager : Singleton<LevelManager>
         GetStartPoint();
     }
 
+    //spawn character
     public void OnLoadCharacter()
     {
+        GetCharaterColor();
+
         for (int i = 0; i < characters.Length; i++)
         {
             Character character = Instantiate(characters[i], listStartPoint[0], Quaternion.identity);
@@ -63,6 +64,7 @@ public class LevelManager : Singleton<LevelManager>
         cameraFollow.SetTarget(characterList[0].Tf);
     }
 
+    //despawn character
     public void OnDestroyCharacter()
     {
         for (int i = 0; i < characterList.Count; i++)
@@ -71,6 +73,7 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
+    //lay mau cho character
     private void GetCharaterColor()
     {
         while (characterColor.Count < characters.Length)
@@ -83,6 +86,7 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
+    //lay vi tri start point
     private void GetStartPoint()
     {
         while(listStartPoint.Count < characters.Length)

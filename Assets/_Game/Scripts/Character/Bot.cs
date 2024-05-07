@@ -11,9 +11,6 @@ public class Bot : Character
     private IState currentState;
     private int index = 0;
 
-    private int targetBrick;
-    public int TargetBrick => targetBrick;
-
     List<Vector3> listTarget = new List<Vector3>();
 
     private void Start()
@@ -21,8 +18,6 @@ public class Bot : Character
         agent = GetComponent<NavMeshAgent>();
         
         listTarget = stage.GetBrickPoint(this.ColorType);
-        Debug.Log("list: " +  listTarget.Count);
-        
     }
 
     private void Update()
@@ -42,7 +37,6 @@ public class Bot : Character
     //thu thap brick
     public void Collect()
     {
-        
         SetDestination(listTarget[index]);
         if (IsDestination)
         {
@@ -55,6 +49,7 @@ public class Bot : Character
     public void Build()
     {
         Vector3 destination = level.GetFinishPoint();
+        Debug.Log(destination);
         SetDestination(destination);
         ChangeAnim(Constants.ANIM_RUN);
     }
@@ -74,18 +69,6 @@ public class Bot : Character
         return Random.Range(3, 10);
     }
 
-    //public void GetListTarget()
-    //{
-    //    targetBrick = GetTargetBrick();
-    //    for (int i = 0; i < targetBrick; i++)
-    //    {
-    //        listTarget = stage.GetBrickPoint(this.ColorType);
-            
-    //        Debug.Log("sl: " + listTarget.Count);
-    //    }
-    //}
-
-    //change state
     public void ChangeState(IState newState)
     {
         if (currentState != null)
