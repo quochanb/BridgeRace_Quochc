@@ -142,7 +142,7 @@ public class Character : ColorObject
         skinnedMesh.material = colorData.GetMat(colorType);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Constants.TAG_BRICK) && other.GetComponent<ColorObject>().ColorType == ColorType)
         {

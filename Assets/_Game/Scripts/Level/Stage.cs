@@ -107,7 +107,6 @@ public class Stage : MonoBehaviour
             if (bricks[i].ColorType == colorType)
             {
                 list.Add(bricks[i].Tf.localPosition);
-                //Debug.Log(bricks[i].Tf.position);
             }
         }
         

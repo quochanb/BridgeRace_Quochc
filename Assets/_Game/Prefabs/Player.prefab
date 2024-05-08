@@ -122,7 +122,7 @@ MonoBehaviour:
   skinnedMesh: {fileID: 223746173034384206}
   stage: {fileID: 0}
   level: {fileID: 0}
-  speed: 10
+  speed: 8
 --- !u!1001 &8694474818161397497
 PrefabInstance:
   m_ObjectHideFlags: 0

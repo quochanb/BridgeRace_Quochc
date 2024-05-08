@@ -18,6 +18,7 @@ public enum GameState
 public class GameManager : Singleton<GameManager>
 {
     public GameState currentState;
+    private int levelNumber;
 
     private void Awake()
     {
@@ -73,7 +74,10 @@ public class GameManager : Singleton<GameManager>
     //state main menu
     public void OnMainMenu()
     {
+        levelNumber = PlayerPrefs.GetInt("game_level", 0);
         UIManager.Instance.OpenUI<CanvasMainMenu>();
+        LevelManager.Instance.OnLoadLevel(levelNumber);
+        LevelManager.Instance.OnLoadCharacter();
         Time.timeScale = 0;
     }
 
@@ -107,9 +111,17 @@ public class GameManager : Singleton<GameManager>
     //state next
     private void OnNextLevel()
     {
-        UIManager.Instance.CloseAll();
-        UIManager.Instance.OpenUI<CanvasGamePlay>();
-        //UNDONE
+        levelNumber++;
+        PlayerPrefs.SetInt("game_level", levelNumber);
+        OnSetup();
+        Time.timeScale = 1;
+    }
+
+    //state resume
+    private void OnResume()
+    {
+        levelNumber = PlayerPrefs.GetInt("game_level");
+        OnSetup();
         Time.timeScale = 1;
     }
 
@@ -118,17 +130,16 @@ public class GameManager : Singleton<GameManager>
     {
         UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasGamePlay>();
-        //UNDONE
         Time.timeScale = 1;
     }
 
-    //state resume
-    private void OnResume()
+    //setup level
+    private void OnSetup()
     {
+        LevelManager.Instance.OnLoadLevel(levelNumber);
+        LevelManager.Instance.OnLoadCharacter();
         UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasGamePlay>();
-        //UNDONE
-        Time.timeScale = 1;
     }
 
     //delay time bat ui win

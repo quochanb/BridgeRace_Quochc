@@ -50,27 +50,29 @@ public class LevelManager : Singleton<LevelManager>
     //spawn character
     public void OnLoadCharacter()
     {
-        GetCharaterColor();
-
-        for (int i = 0; i < characters.Length; i++)
+        if (characterList.Count > 0)
         {
-            Character character = Instantiate(characters[i], listStartPoint[0], Quaternion.identity);
-            
-            listStartPoint.RemoveAt(0);
-            character.ChangeColor(characterColor[0]);
-            characterColor.RemoveAt(0);
-            characterList.Add(character);
+            for (int i = 0; i < characterList.Count; i++)
+            {
+                Destroy(characterList[i].gameObject);
+                characterList.Clear();
+            }
         }
+        else
+        {
+            GetCharaterColor();
+            for (int i = 0; i < characters.Length; i++)
+            {
+                Character character = Instantiate(characters[i], listStartPoint[0], Quaternion.identity);
+
+                listStartPoint.RemoveAt(0);
+                character.ChangeColor(characterColor[0]);
+                characterColor.RemoveAt(0);
+                characterList.Add(character);
+            }
+        }
+
         cameraFollow.SetTarget(characterList[0].Tf);
-    }
-
-    //despawn character
-    public void OnDestroyCharacter()
-    {
-        for (int i = 0; i < characterList.Count; i++)
-        {
-            Destroy(characterList[i].gameObject);
-        }
     }
 
     //lay mau cho character
@@ -89,7 +91,7 @@ public class LevelManager : Singleton<LevelManager>
     //lay vi tri start point
     private void GetStartPoint()
     {
-        while(listStartPoint.Count < characters.Length)
+        while (listStartPoint.Count < characters.Length)
         {
             Vector3 point = currentLevel.GetStartPoint();
             if (!listStartPoint.Contains(point))

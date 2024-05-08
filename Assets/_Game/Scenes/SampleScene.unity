@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 562c3182e2fe23c45800aadc8bf46701, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &321054190
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,6 +680,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 726787243, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
+      propertyPath: m_Speed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 726787243, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
+      propertyPath: m_Acceleration
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 726787243, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8983678598775158937, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
       propertyPath: m_Name
       value: Bot_1
@@ -1126,6 +1138,10 @@ PrefabInstance:
     - target: {fileID: 8684180981688486705, guid: 58e1dae7113b99e4399714c174120369, type: 3}
       propertyPath: m_Name
       value: Level_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684180981688486705, guid: 58e1dae7113b99e4399714c174120369, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8684180981688486706, guid: 58e1dae7113b99e4399714c174120369, type: 3}
       propertyPath: m_RootOrder
