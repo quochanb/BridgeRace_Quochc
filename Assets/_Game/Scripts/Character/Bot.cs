@@ -8,7 +8,7 @@ public class Bot : Character
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Rigidbody rb;
 
-    private float speed = 6f;
+    [SerializeField] private float speed = 20f;
     private int index = 0;
     private int botBrick;
     private Vector3 destination;
@@ -53,14 +53,15 @@ public class Bot : Character
     //thu thap brick
     public void Collect()
     {
-        //if (listTarget.Count == 0)
-        //{
-        //    listTarget = stage.GetBrickPoint(this.ColorType);
-        //}
+        if (index >= listTarget.Count)
+        {
+            return;
+        }
         SetDestination(listTarget[index]);
         if (IsDestination)
         {
             SetDestination(listTarget[index++]);
+            listTarget.RemoveAt(index);
         }
         ChangeAnim(Constants.ANIM_RUN);
     }
@@ -71,7 +72,7 @@ public class Bot : Character
         destination = level.GetFinishPoint();
 
         SetDestination(destination);
-
+        CheckStair();
         ChangeAnim(Constants.ANIM_RUN);
     }
 
@@ -88,7 +89,28 @@ public class Bot : Character
     //lay ra so luong gach cua bot
     public int GetTargetBrick()
     {
-        return Random.Range(3, 10);
+        return Random.Range(15, 20);
+    }
+
+    //check dieu kien de di len cau thang
+    public bool CheckStair()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(Tf.position + new Vector3(0, 1, 1), Vector3.down, out hit, 5f, stairLayer))
+        {
+            ColorObject stairColor = hit.collider.GetComponent<ColorObject>();
+            if (stairColor.ColorType == this.ColorType)
+            {
+                return false;
+            }
+            else
+            {
+                RemoveBrick();
+                BotBrick--;
+                stairColor.ChangeColor(this.ColorType);
+            }
+        }
+        return false;
     }
 
     //change state
@@ -110,12 +132,10 @@ public class Bot : Character
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
-        if (other.CompareTag("Stair"))
+        if (other.CompareTag(Constants.TAG_FINISH))
         {
-            RemoveBrick();
-            BotBrick--;
-            Debug.Log("Tru gach: " + BotBrick);
-            other.gameObject.GetComponent<ColorObject>().ChangeColor(this.ColorType);
+            GameManager.Instance.ChangeGameState(GameState.Fail);
         }
     }
+
 }

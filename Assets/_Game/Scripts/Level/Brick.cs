@@ -15,25 +15,20 @@ public class Brick : ColorObject
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
+    //lay ra vi tri vien gach va cham voi character
     public Vector3 GetSpawnPosition()
     {
         return transform.localPosition;
     }
 
-    private void OnTriggerEnter(Collider other)
+    //goi khi va cham voi character
+    public void HitCharacter()
     {
-        if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
-        {
-            if (other.GetComponent<ColorObject>().ColorType == ColorType)
-            {
-                spawnPosition = GetSpawnPosition();
-                respawnTime = Random.Range(5, 15);
-                stage.AddEmptyBrickPoint(spawnPosition, respawnTime);
-                stage.DespawnBrick(this);
-            }
-        }
+        spawnPosition = GetSpawnPosition();
+        stage.DespawnBrick(this,spawnPosition);
     }
 
+    //change color
     public override void ChangeColor(ColorType color)
     {
         base.ChangeColor(color);

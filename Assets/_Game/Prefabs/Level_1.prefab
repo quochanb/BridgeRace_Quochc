@@ -5804,7 +5804,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483647
   m_UseGeometry: 0
-  m_DefaultArea: 2
+  m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
@@ -5812,7 +5812,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: fa4a0c26d5480924b9e03ffaa6def498, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: c4d390198a7d4ce48ac4fc6a3ff97193, type: 2}
 --- !u!1 &8684180981693851505
 GameObject:
   m_ObjectHideFlags: 0
@@ -18896,6 +18896,8 @@ MonoBehaviour:
   width: 10
   height: 8
   spawnBrickPoint: {fileID: 8684180983460588170}
+  emptyList: []
+  listColor: 
 --- !u!1 &8684180982374360651
 GameObject:
   m_ObjectHideFlags: 0
@@ -23659,6 +23661,8 @@ MonoBehaviour:
   width: 6
   height: 5
   spawnBrickPoint: {fileID: 8684180983362409019}
+  emptyList: []
+  listColor: 
 --- !u!65 &8684180982573658591
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27429,8 +27433,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3093018127410356088, guid: c1b13235b909e964dbc51d64741b0536, type: 3}
   width: 8
-  height: 6
+  height: 5
   spawnBrickPoint: {fileID: 8684180982696531953}
+  emptyList: []
+  listColor: 
 --- !u!65 &8684180982796510272
 BoxCollider:
   m_ObjectHideFlags: 0

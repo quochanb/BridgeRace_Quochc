@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class Vector3AndTime
 {
     private Vector3 position;

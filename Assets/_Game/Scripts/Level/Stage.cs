@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
@@ -10,15 +7,15 @@ public class Stage : MonoBehaviour
     [SerializeField] private float width, height;
     [SerializeField] private Transform spawnBrickPoint;
 
-    private float spaceBrick = 3f;
+    private float spaceBrick = 2f;
     private bool isCollided = false;
     private ColorType color;
-    private int[] brickCount = new int[6];
+    private int[] brickCount = new int[10];
 
     List<Brick> bricks = new List<Brick>();
     List<Vector3> emptyBrickPoints = new List<Vector3>();
-    List<Vector3AndTime> emptyList = new List<Vector3AndTime>();
-    List<ColorType> listColor = new List<ColorType>();
+    [SerializeField] List<Vector3AndTime> emptyList = new List<Vector3AndTime>();
+    [SerializeField] List<ColorType> listColor = new List<ColorType>();
 
     private void Awake()
     {
@@ -57,6 +54,8 @@ public class Stage : MonoBehaviour
     //spawn brick
     public void SpawnBrick(Vector3 position)
     {
+        if (listColor.Count == 0)
+            return;
         //lay random vi tri
         position = GetRandomEmptyPosition();
         Brick brick = Instantiate(prefab, position, Quaternion.identity, this.spawnBrickPoint);
@@ -74,21 +73,24 @@ public class Stage : MonoBehaviour
         emptyBrickPoints.Remove(position);
 
         brickCount[(int)color]++;
-        if (brickCount[(int)color] >= width*height/5-1)
+        if (brickCount[(int)color] >= width * height / 5)
         {
             listColor.Remove(color);
         }
     }
 
-    //xoa brick khoi list
-    public void DespawnBrick(Brick b)
+    //goi khi character va cham voi brick
+    public void DespawnBrick(Brick b,Vector3 spawnPosition)
     {
         bricks.Remove(b);
         brickCount[(int)b.ColorType]--;
-        if(!listColor.Contains(b.ColorType))
+        if (!listColor.Contains(b.ColorType))
         {
             listColor.Add(b.ColorType);
-        }    
+        }
+        float respawnTime = Random.Range(2f, 5f);
+        
+        AddEmptyBrickPoint(spawnPosition, respawnTime);
     }
 
     //them vi tri ko co brick vao list moi va list ban dau
@@ -96,6 +98,7 @@ public class Stage : MonoBehaviour
     {
         emptyList.Add(new Vector3AndTime(position, time));
         emptyBrickPoints.Add(position);
+
     }
 
     //lay ra vi tri brick co mau chi dinh
@@ -106,13 +109,14 @@ public class Stage : MonoBehaviour
         {
             if (bricks[i].ColorType == colorType)
             {
-                list.Add(bricks[i].Tf.localPosition);
+                list.Add(bricks[i].Tf.position);
             }
         }
-        
+
         return list;
     }
 
+    //luu color cua charater
     public void GetColorCharacter(ColorType colorType)
     {
         if (!listColor.Contains(colorType))
@@ -138,7 +142,7 @@ public class Stage : MonoBehaviour
             if (isCollided)
             {
                 other.GetComponent<Character>().stage = this;
-                for (int i = emptyBrickPoints.Count - 1; i >= 0 && listColor.Count !=0 ; i--)
+                for (int i = emptyBrickPoints.Count - 1; i >= 0 && listColor.Count != 0; i--)
                 {
                     SpawnBrick(emptyBrickPoints[i]);
                 }
@@ -153,5 +157,4 @@ public class Stage : MonoBehaviour
             isCollided = false;
         }
     }
-
 }

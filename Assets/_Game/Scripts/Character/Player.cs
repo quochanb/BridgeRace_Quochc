@@ -6,7 +6,7 @@ public class Player : Character
 {
     [SerializeField] private float speed = 5f;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButton(0))
         {
@@ -22,6 +22,15 @@ public class Player : Character
         if (Input.GetMouseButtonUp(0))
         {
             ChangeAnim(Constants.ANIM_IDLE);
+        }
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        if(other.CompareTag(Constants.TAG_FINISH))
+        {
+            GameManager.Instance.ChangeGameState(GameState.Victory);
         }
     }
 }

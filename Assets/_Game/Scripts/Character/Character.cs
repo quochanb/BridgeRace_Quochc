@@ -146,6 +146,7 @@ public class Character : ColorObject
     {
         if (other.CompareTag(Constants.TAG_BRICK) && other.GetComponent<ColorObject>().ColorType == ColorType)
         {
+            other.GetComponent<Brick>().HitCharacter();
             AddBrick();
             Destroy(other.gameObject);
         }
