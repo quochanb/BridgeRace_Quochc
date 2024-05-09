@@ -10,6 +10,7 @@ TagManager:
   - Brick
   - Bot
   - Stage
+  - EndBox
   layers:
   - Default
   - TransparentFX
