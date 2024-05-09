@@ -15,6 +15,8 @@ public class Character : ColorObject
     public Stage stage;
     public Level level;
 
+    private bool isCollided = false;
+
     List<Brick> brickList = new List<Brick>();
 
     private void Awake()
@@ -150,10 +152,18 @@ public class Character : ColorObject
             AddBrick();
             Destroy(other.gameObject);
         }
-        if (other.CompareTag(Constants.TAG_ENDBOX))
+        if (other.CompareTag(Constants.TAG_ENDBOX) && !isCollided)
         {
-            Debug.Log("hit");
+            isCollided = true;
             stage.ClearBrick(this.ColorType);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(Constants.TAG_ENDBOX) && isCollided)
+        {
+            return;
         }
     }
 }

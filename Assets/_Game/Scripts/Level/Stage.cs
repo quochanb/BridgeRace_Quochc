@@ -80,7 +80,7 @@ public class Stage : MonoBehaviour
     }
 
     //goi khi character va cham voi brick
-    public void DespawnBrick(Brick b,Vector3 spawnPosition)
+    public void DespawnBrick(Brick b, Vector3 spawnPosition)
     {
         bricks.Remove(b);
         brickCount[(int)b.ColorType]--;
@@ -89,17 +89,18 @@ public class Stage : MonoBehaviour
             listColor.Add(b.ColorType);
         }
         float respawnTime = Random.Range(2f, 5f);
-        
+
         AddEmptyBrickPoint(spawnPosition, respawnTime);
     }
 
+    //goi khi character sang stage moi
     public void ClearBrick(ColorType colorType)
     {
-        for(int i = 0; i < bricks.Count; i++)
+        for (int i = bricks.Count - 1; i >= 0; i--)
         {
-            if(bricks[i].ColorType == colorType)
+            if (bricks[i].ColorType == colorType)
             {
-                //Destroy(bricks[i].gameObject);
+                Destroy(bricks[i].gameObject);
                 bricks.RemoveAt(i);
             }
         }
@@ -155,10 +156,12 @@ public class Stage : MonoBehaviour
             if (isCollided)
             {
                 other.GetComponent<Character>().stage = this;
+                
                 for (int i = emptyBrickPoints.Count - 1; i >= 0 && listColor.Count != 0; i--)
                 {
                     SpawnBrick(emptyBrickPoints[i]);
                 }
+                isCollided =  false;
             }
         }
     }
@@ -167,7 +170,7 @@ public class Stage : MonoBehaviour
     {
         if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
-            isCollided = false;
+            return;
         }
     }
 }

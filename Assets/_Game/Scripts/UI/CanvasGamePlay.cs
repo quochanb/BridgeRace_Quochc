@@ -21,7 +21,6 @@ public class CanvasGamePlay : UICanvas
 
     public void SettingButton()
     {
-        Close(0);
-        UIManager.Instance.OpenUI<CanvasSetting>();
+        GameManager.Instance.ChangeGameState(GameState.Setting);
     }
 }

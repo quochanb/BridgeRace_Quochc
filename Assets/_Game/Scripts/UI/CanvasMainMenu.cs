@@ -6,18 +6,16 @@ public class CanvasMainMenu : UICanvas
 {
     public void PlayButton()
     {
-        Close(0);
-        UIManager.Instance.OpenUI<CanvasGamePlay>();
+        GameManager.Instance.ChangeGameState(GameState.GamePlay);
     }
 
     public void SettingButton()
     {
-        UIManager.Instance.OpenUI<CanvasGamePlay>();
+        GameManager.Instance.ChangeGameState(GameState.Setting);
     }
 
     public void ResumeButton()
     {
-        Close(0);
-        UIManager.Instance.OpenUI<CanvasGamePlay>();
+        GameManager.Instance.ChangeGameState(GameState.Resume);
     }
 }

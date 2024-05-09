@@ -27,14 +27,12 @@ public class CanvasSetting : UICanvas
 
     public void MainMenuButton()
     {
-        Close(0);
-        UIManager.Instance.OpenUI<CanvasMainMenu>();
+        GameManager.Instance.ChangeGameState(GameState.MainMenu);
     }
 
     public void ContinueButton()
     {
-        Close(0);
-        UIManager.Instance.OpenUI<CanvasGamePlay>();
+        GameManager.Instance.ChangeGameState(GameState.GamePlay);
     }
 
     public void CloseButton()
