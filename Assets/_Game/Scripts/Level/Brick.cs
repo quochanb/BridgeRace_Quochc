@@ -25,7 +25,7 @@ public class Brick : ColorObject
     public void HitCharacter()
     {
         spawnPosition = GetSpawnPosition();
-        stage.DespawnBrick(this,spawnPosition);
+        stage.DespawnBrick(this, spawnPosition);
     }
 
     //change color

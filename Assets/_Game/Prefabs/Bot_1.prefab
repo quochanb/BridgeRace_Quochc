@@ -95,7 +95,6 @@ MonoBehaviour:
   agent: {fileID: 726787243}
   rb: {fileID: 59536492071147839}
   speed: 6
-  listTarget: []
 --- !u!195 &726787243
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -110,7 +109,7 @@ NavMeshAgent:
   m_Acceleration: 500
   avoidancePriority: 50
   m_AngularSpeed: 500
-  m_StoppingDistance: 10
+  m_StoppingDistance: 0.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

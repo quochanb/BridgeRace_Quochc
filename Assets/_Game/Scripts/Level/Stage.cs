@@ -93,6 +93,19 @@ public class Stage : MonoBehaviour
         AddEmptyBrickPoint(spawnPosition, respawnTime);
     }
 
+    public void ClearBrick(ColorType colorType)
+    {
+        for(int i = 0; i < bricks.Count; i++)
+        {
+            if(bricks[i].ColorType == colorType)
+            {
+                Destroy(bricks[i].gameObject);
+                bricks.RemoveAt(i);
+            }
+        }
+        emptyList.Clear();
+    }
+
     //them vi tri ko co brick vao list moi va list ban dau
     public void AddEmptyBrickPoint(Vector3 position, float time)
     {

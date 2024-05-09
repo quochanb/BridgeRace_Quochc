@@ -15,4 +15,5 @@ public class Constants
     public const string TAG_BOT = "Bot";
     public const string TAG_STAGE = "Stage";
     public const string TAG_FINISH = "Finish";
+    public const string TAG_ENDBOX = "EndBox";
 }

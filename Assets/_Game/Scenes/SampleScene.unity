@@ -680,18 +680,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 726787243, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
-      propertyPath: m_Speed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 726787243, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
-      propertyPath: m_Acceleration
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 726787243, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
-      propertyPath: m_StoppingDistance
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 8983678598775158937, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
       propertyPath: m_Name
       value: Bot_1

@@ -150,5 +150,10 @@ public class Character : ColorObject
             AddBrick();
             Destroy(other.gameObject);
         }
+        if (other.CompareTag(Constants.TAG_ENDBOX))
+        {
+            Debug.Log("hit");
+            stage.ClearBrick(this.ColorType);
+        }
     }
 }
