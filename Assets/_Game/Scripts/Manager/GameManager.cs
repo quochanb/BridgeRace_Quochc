@@ -11,8 +11,7 @@ public enum GameState
     Victory = 3,
     Fail = 4,
     NextLevel = 5,
-    Continue = 6,
-    Resume =7
+    Resume =6
 }
 
 public class GameManager : Singleton<GameManager>
@@ -60,9 +59,6 @@ public class GameManager : Singleton<GameManager>
             case GameState.NextLevel:
                 OnNextLevel();
                 break;
-            case GameState.Continue:
-                OnContinue();
-                break;
             case GameState.Resume:
                 OnResume();
                 break;
@@ -75,6 +71,7 @@ public class GameManager : Singleton<GameManager>
     public void OnMainMenu()
     {
         levelNumber = PlayerPrefs.GetInt("game_level", 0);
+        UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasMainMenu>();
         LevelManager.Instance.OnLoadLevel(levelNumber);
         LevelManager.Instance.OnLoadCharacter();
@@ -86,12 +83,14 @@ public class GameManager : Singleton<GameManager>
     {
         UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasGamePlay>();
+        UIManager.Instance.OpenUI<CanvasJoystick>();
         Time.timeScale = 1;
     }
 
     //state setting
     public void OnSetting()
     {
+        UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasSetting>();
         Time.timeScale = 0;
     }
@@ -125,14 +124,6 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1;
     }
 
-    //state continue
-    private void OnContinue()
-    {
-        UIManager.Instance.CloseAll();
-        UIManager.Instance.OpenUI<CanvasGamePlay>();
-        Time.timeScale = 1;
-    }
-
     //setup level
     private void OnSetup()
     {
@@ -140,12 +131,14 @@ public class GameManager : Singleton<GameManager>
         LevelManager.Instance.OnLoadCharacter();
         UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasGamePlay>();
+        UIManager.Instance.OpenUI<CanvasJoystick>();
     }
 
     //delay time bat ui win
     IEnumerator DelayTimeVictory(float time)
     {
         yield return new WaitForSeconds(time);
+        UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasVictory>();
         Time.timeScale = 0;
     }
@@ -154,6 +147,7 @@ public class GameManager : Singleton<GameManager>
     IEnumerator DelayTimeFail(float time)
     {
         yield return new WaitForSeconds(time);
+        UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasFail>();
         Time.timeScale = 0;
     }

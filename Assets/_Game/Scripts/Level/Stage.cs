@@ -99,7 +99,7 @@ public class Stage : MonoBehaviour
         {
             if(bricks[i].ColorType == colorType)
             {
-                Destroy(bricks[i].gameObject);
+                //Destroy(bricks[i].gameObject);
                 bricks.RemoveAt(i);
             }
         }

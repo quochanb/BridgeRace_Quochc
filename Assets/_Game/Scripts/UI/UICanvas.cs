@@ -37,11 +37,13 @@ public class UICanvas : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    //close canvas sau time(s)
     public virtual void Close(float time)
     {
         Invoke(nameof(CloseDirectly), time);
     }
 
+    //close canvas ngay lap tuc
     public virtual void CloseDirectly()
     {
         if (isDestroyOnClose)
