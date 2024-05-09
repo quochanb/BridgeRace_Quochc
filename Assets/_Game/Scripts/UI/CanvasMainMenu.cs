@@ -21,8 +21,6 @@ public class CanvasMainMenu : UICanvas
     public void PlayButton()
     {
         GameManager.Instance.ChangeGameState(GameState.GamePlay);
-        LevelManager.Instance.OnLoadLevel(0);
-        LevelManager.Instance.OnLoadCharacter();
     }
 
     public void SettingButton()

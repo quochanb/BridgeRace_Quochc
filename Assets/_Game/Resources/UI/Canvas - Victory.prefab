@@ -480,7 +480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDestroyOnClose: 0
-  scoreText: {fileID: 0}
+  scoreText: {fileID: 3035184781157319754}
 --- !u!1 &7574243416268283835
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,7 +29,6 @@ public class CanvasSetting : UICanvas
     public void MainMenuButton()
     {
         GameManager.Instance.ChangeGameState(GameState.MainMenu);
-        //LevelManager.Instance.OnReset();
     }
 
     public void ContinueButton()

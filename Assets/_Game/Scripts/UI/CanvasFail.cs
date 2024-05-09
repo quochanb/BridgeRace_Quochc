@@ -14,6 +14,6 @@ public class CanvasFail : UICanvas
 
     public void MainMenuButton()
     {
-        GameManager.Instance.ChangeGameState(GameState.Fail);
+        GameManager.Instance.ChangeGameState(GameState.MainMenu);
     }
 }
