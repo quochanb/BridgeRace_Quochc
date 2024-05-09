@@ -32,6 +32,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        levelNumber = PlayerPrefs.GetInt("game_level", 0);
         ChangeGameState(GameState.MainMenu);
     }
 
@@ -70,11 +71,10 @@ public class GameManager : Singleton<GameManager>
     //state main menu
     public void OnMainMenu()
     {
-        levelNumber = PlayerPrefs.GetInt("game_level", 0);
+        
         UIManager.Instance.CloseAll();
-        UIManager.Instance.OpenUI<CanvasMainMenu>();
-        LevelManager.Instance.OnLoadLevel(levelNumber);
-        LevelManager.Instance.OnLoadCharacter();
+        UIManager.Instance.OpenUI<CanvasMainMenu>().SetState(levelNumber);
+        LevelManager.Instance.OnReset();
         Time.timeScale = 0;
     }
 
@@ -82,8 +82,8 @@ public class GameManager : Singleton<GameManager>
     public void OnGamePlay()
     {
         UIManager.Instance.CloseAll();
-        UIManager.Instance.OpenUI<CanvasGamePlay>();
         UIManager.Instance.OpenUI<CanvasJoystick>();
+        UIManager.Instance.OpenUI<CanvasGamePlay>();
         Time.timeScale = 1;
     }
 
@@ -91,20 +91,22 @@ public class GameManager : Singleton<GameManager>
     public void OnSetting()
     {
         UIManager.Instance.CloseAll();
-        UIManager.Instance.OpenUI<CanvasSetting>();
         Time.timeScale = 0;
     }
 
     //state victory
     public void OnVictory()
     {
-        StartCoroutine(DelayTimeVictory(2));
+        StartCoroutine(DelayTime(2));
+        
     }
 
     //state fail
     public void OnFail()
     {
-        StartCoroutine(DelayTimeFail(1));
+        UIManager.Instance.CloseAll();
+        UIManager.Instance.OpenUI<CanvasFail>();
+        Time.timeScale = 0;
     }
 
     //state next
@@ -113,7 +115,6 @@ public class GameManager : Singleton<GameManager>
         levelNumber++;
         PlayerPrefs.SetInt("game_level", levelNumber);
         OnSetup();
-        Time.timeScale = 1;
     }
 
     //state resume
@@ -121,7 +122,6 @@ public class GameManager : Singleton<GameManager>
     {
         levelNumber = PlayerPrefs.GetInt("game_level");
         OnSetup();
-        Time.timeScale = 1;
     }
 
     //setup level
@@ -130,25 +130,17 @@ public class GameManager : Singleton<GameManager>
         LevelManager.Instance.OnLoadLevel(levelNumber);
         LevelManager.Instance.OnLoadCharacter();
         UIManager.Instance.CloseAll();
-        UIManager.Instance.OpenUI<CanvasGamePlay>();
         UIManager.Instance.OpenUI<CanvasJoystick>();
+        UIManager.Instance.OpenUI<CanvasGamePlay>();
+        Time.timeScale = 1;
     }
 
-    //delay time bat ui win
-    IEnumerator DelayTimeVictory(float time)
+    //delay time
+    IEnumerator DelayTime(float time)
     {
         yield return new WaitForSeconds(time);
         UIManager.Instance.CloseAll();
-        UIManager.Instance.OpenUI<CanvasVictory>();
-        Time.timeScale = 0;
-    }
-
-    //delay time bat ui fail
-    IEnumerator DelayTimeFail(float time)
-    {
-        yield return new WaitForSeconds(time);
-        UIManager.Instance.CloseAll();
-        UIManager.Instance.OpenUI<CanvasFail>();
-        Time.timeScale = 0;
+        //UIManager.Instance.OpenUI<CanvasVictory>();
+        //Time.timeScale = 0;
     }
 }

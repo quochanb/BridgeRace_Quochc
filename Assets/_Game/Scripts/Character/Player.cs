@@ -30,6 +30,8 @@ public class Player : Character
         base.OnTriggerEnter(other);
         if(other.CompareTag(Constants.TAG_FINISH))
         {
+            Tf.position = level.GetFinishPoint();
+            Tf.rotation = Quaternion.Euler(0, -180, 0);
             GameManager.Instance.ChangeGameState(GameState.Victory);
         }
     }

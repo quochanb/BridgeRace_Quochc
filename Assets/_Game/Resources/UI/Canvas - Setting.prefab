@@ -596,9 +596,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDestroyOnClose: 0
   buttons:
-  - {fileID: 5531291194380256400}
-  - {fileID: 5531291195661033757}
-  - {fileID: 5531291195605863073}
+  - {fileID: 5531291194380256398}
+  - {fileID: 5531291195661033755}
+  - {fileID: 5531291195605863071}
 --- !u!1 &5531291195504231727
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,14 +663,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.47058824}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 7b59b4b27cc8110478074876baf9f0c3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

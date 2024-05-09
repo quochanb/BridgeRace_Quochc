@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CanvasSetting : UICanvas
 {
-    [SerializeField] GameObject[] buttons;
+    [SerializeField] Button[] buttons;
 
     public void SetState(UICanvas canvas)
     {
@@ -28,6 +29,7 @@ public class CanvasSetting : UICanvas
     public void MainMenuButton()
     {
         GameManager.Instance.ChangeGameState(GameState.MainMenu);
+        //LevelManager.Instance.OnReset();
     }
 
     public void ContinueButton()
@@ -37,6 +39,6 @@ public class CanvasSetting : UICanvas
 
     public void CloseButton()
     {
-        Close(0);
+        GameManager.Instance.ChangeGameState(GameState.MainMenu);
     }
 }

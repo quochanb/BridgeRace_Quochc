@@ -18,21 +18,26 @@ public class LevelManager : Singleton<LevelManager>
     private void Start()
     {
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        OnInit();
-    }
-
-    //khoi tao trang thai bat dau game
-    public void OnInit()
-    {
-        OnLoadLevel(0);
-
-        OnLoadCharacter();
+        cameraFollow.enabled = false;
     }
 
     //reset trang thai khi ket thuc game
     public void OnReset()
     {
+        if (currentLevel != null)
+        {
+            Destroy(currentLevel.gameObject);
+        }
 
+        if (characterList.Count > 0)
+        {
+            for (int i = 0; i < characterList.Count; i++)
+            {
+                Destroy(characterList[i].gameObject);
+            }
+            characterList.Clear();
+        }
+        cameraFollow.enabled = false;
     }
 
     //tao prefab level moi
@@ -55,8 +60,8 @@ public class LevelManager : Singleton<LevelManager>
             for (int i = 0; i < characterList.Count; i++)
             {
                 Destroy(characterList[i].gameObject);
-                characterList.Clear();
             }
+            characterList.Clear();
         }
         else
         {
@@ -71,7 +76,7 @@ public class LevelManager : Singleton<LevelManager>
                 characterList.Add(character);
             }
         }
-
+        cameraFollow.enabled = true;
         cameraFollow.SetTarget(characterList[0].Tf);
     }
 
