@@ -11,7 +11,8 @@ public enum GameState
     Victory = 3,
     Fail = 4,
     NextLevel = 5,
-    Resume =6
+    Resume = 6,
+    Continue = 7
 }
 
 public class GameManager : Singleton<GameManager>
@@ -33,7 +34,6 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         levelNumber = PlayerPrefs.GetInt("game_level", 0);
-        Debug.Log(levelNumber);
         ChangeGameState(GameState.MainMenu);
     }
 
@@ -64,6 +64,9 @@ public class GameManager : Singleton<GameManager>
             case GameState.Resume:
                 OnResume();
                 break;
+            case GameState.Continue:
+                OnContinue();
+                break;
             default:
                 break;
         }
@@ -72,7 +75,7 @@ public class GameManager : Singleton<GameManager>
     //state main menu
     public void OnMainMenu()
     {
-        
+
         UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasMainMenu>().SetState(levelNumber);
         LevelManager.Instance.OnReset();
@@ -96,14 +99,18 @@ public class GameManager : Singleton<GameManager>
     //state victory
     public void OnVictory()
     {
-        StartCoroutine(DelayTime(2));
+        UIManager.Instance.CloseUI<CanvasJoystick>(0);
+        StartCoroutine(DelayTimeVictory(2));
         
     }
 
     //state fail
     public void OnFail()
     {
-        UIManager.Instance.CloseAll();
+        int currentNumberLevel = levelNumber;
+        PlayerPrefs.SetInt("game_level", currentNumberLevel);
+        StartCoroutine(DelayTime(1));
+        UIManager.Instance.CloseUI<CanvasJoystick>(0);
         UIManager.Instance.OpenUI<CanvasFail>();
         Time.timeScale = 0;
     }
@@ -112,7 +119,6 @@ public class GameManager : Singleton<GameManager>
     private void OnNextLevel()
     {
         levelNumber++;
-        Debug.Log(levelNumber);
         PlayerPrefs.SetInt("game_level", levelNumber);
         OnSetup();
     }
@@ -122,6 +128,15 @@ public class GameManager : Singleton<GameManager>
     {
         levelNumber = PlayerPrefs.GetInt("game_level");
         OnSetup();
+    }
+
+    //state continue
+    private void OnContinue()
+    {
+        UIManager.Instance.CloseAll();
+        UIManager.Instance.OpenUI<CanvasJoystick>();
+        UIManager.Instance.OpenUI<CanvasGamePlay>();
+        Time.timeScale = 1;
     }
 
     //setup level
@@ -140,8 +155,12 @@ public class GameManager : Singleton<GameManager>
     IEnumerator DelayTime(float time)
     {
         yield return new WaitForSeconds(time);
-        UIManager.Instance.CloseAll();
+    }
+
+    IEnumerator DelayTimeVictory(float time)
+    {
+        yield return new WaitForSeconds(time);
         UIManager.Instance.OpenUI<CanvasVictory>();
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 }

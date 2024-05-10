@@ -8,7 +8,7 @@ public class Bot : Character
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Rigidbody rb;
 
-    [SerializeField] private float speed = 20f;
+    //[SerializeField] private float speed = 20f;
     private int index = 0;
     private int botBrick;
     private Vector3 destination;
@@ -31,10 +31,10 @@ public class Bot : Character
     {
         listTarget = stage.GetBrickPoint(this.ColorType);
 
-        if (rb.velocity.magnitude > speed)
-        {
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, speed);
-        }
+        //if (rb.velocity.magnitude > speed)
+        //{
+        //    rb.velocity = Vector3.ClampMagnitude(rb.velocity, speed);
+        //}
 
         if (currentState != null)
         {
@@ -134,6 +134,8 @@ public class Bot : Character
         base.OnTriggerEnter(other);
         if (other.CompareTag(Constants.TAG_FINISH))
         {
+            Tf.position = level.GetFinishPoint();
+            ChangeAnim(Constants.ANIM_DANCE);
             GameManager.Instance.ChangeGameState(GameState.Fail);
         }
     }

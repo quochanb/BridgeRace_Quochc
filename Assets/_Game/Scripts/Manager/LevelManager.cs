@@ -43,10 +43,6 @@ public class LevelManager : Singleton<LevelManager>
     //tao prefab level moi
     public void OnLoadLevel(int level)
     {
-        if (currentLevel != null)
-        {
-            Destroy(currentLevel.gameObject);
-        }
         currentLevel = Instantiate(levels[level]);
 
         GetStartPoint();
@@ -55,27 +51,17 @@ public class LevelManager : Singleton<LevelManager>
     //spawn character
     public void OnLoadCharacter()
     {
-        if (characterList.Count > 0)
+        GetCharaterColor();
+        for (int i = 0; i < characters.Length; i++)
         {
-            for (int i = 0; i < characterList.Count; i++)
-            {
-                Destroy(characterList[i].gameObject);
-            }
-            characterList.Clear();
-        }
-        else
-        {
-            GetCharaterColor();
-            for (int i = 0; i < characters.Length; i++)
-            {
-                Character character = Instantiate(characters[i], listStartPoint[0], Quaternion.identity);
+            Character character = Instantiate(characters[i], listStartPoint[0], Quaternion.identity);
 
-                listStartPoint.RemoveAt(0);
-                character.ChangeColor(characterColor[0]);
-                characterColor.RemoveAt(0);
-                characterList.Add(character);
-            }
+            listStartPoint.RemoveAt(0);
+            character.ChangeColor(characterColor[0]);
+            characterColor.RemoveAt(0);
+            characterList.Add(character);
         }
+
         cameraFollow.enabled = true;
         cameraFollow.SetTarget(characterList[0].Tf);
     }

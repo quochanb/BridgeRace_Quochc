@@ -24,12 +24,4 @@ public class Door : MonoBehaviour
             ChangeAnim(Constants.ANIM_OPEN);
         }
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
-        {
-            ChangeAnim(Constants.ANIM_CLOSE);
-        }
-    }
 }

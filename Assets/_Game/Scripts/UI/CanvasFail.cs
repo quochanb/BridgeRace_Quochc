@@ -16,4 +16,9 @@ public class CanvasFail : UICanvas
     {
         GameManager.Instance.ChangeGameState(GameState.MainMenu);
     }
+
+    public void PlayAgainButton()
+    {
+        GameManager.Instance.ChangeGameState(GameState.Resume);
+    }
 }

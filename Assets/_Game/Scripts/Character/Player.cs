@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : Character
 {
+    public delegate void WinGameDelegate();
+    public static WinGameDelegate winGameEvent;
     [SerializeField] private float speed = 5f;
 
     private void Update()
@@ -30,8 +33,9 @@ public class Player : Character
         base.OnTriggerEnter(other);
         if(other.CompareTag(Constants.TAG_FINISH))
         {
+            winGameEvent?.Invoke();
             Tf.position = level.GetFinishPoint();
-            Tf.rotation = Quaternion.Euler(0, -180, 0);
+            ChangeAnim(Constants.ANIM_DANCE);
             GameManager.Instance.ChangeGameState(GameState.Victory);
         }
     }

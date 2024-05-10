@@ -33,7 +33,7 @@ public class CanvasSetting : UICanvas
 
     public void ContinueButton()
     {
-        GameManager.Instance.ChangeGameState(GameState.GamePlay);
+        GameManager.Instance.ChangeGameState(GameState.Continue);
     }
 
     public void CloseButton()
