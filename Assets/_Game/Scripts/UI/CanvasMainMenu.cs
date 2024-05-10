@@ -20,17 +20,24 @@ public class CanvasMainMenu : UICanvas
 
     public void PlayButton()
     {
+        UIManager.Instance.CloseAll();
+        UIManager.Instance.OpenUI<CanvasJoystick>();
+        UIManager.Instance.OpenUI<CanvasGamePlay>();
         GameManager.Instance.ChangeGameState(GameState.GamePlay);
     }
 
     public void SettingButton()
     {
-        GameManager.Instance.ChangeGameState(GameState.Setting);
+        UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasSetting>().SetState(this);
+        GameManager.Instance.ChangeGameState(GameState.Setting);
     }
 
     public void ResumeButton()
     {
+        UIManager.Instance.CloseAll();
+        UIManager.Instance.OpenUI<CanvasJoystick>();
+        UIManager.Instance.OpenUI<CanvasGamePlay>();
         GameManager.Instance.ChangeGameState(GameState.Resume);
     }
 }

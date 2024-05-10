@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CanvasGamePlay : UICanvas
 {
-    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI coinText;
 
     public override void SetUp()
     {
@@ -14,14 +14,15 @@ public class CanvasGamePlay : UICanvas
         UpdateScore(0);
     }
 
-    private void UpdateScore(int score)
+    public void UpdateScore(int coin)
     {
-        scoreText.text = score.ToString();
+        coinText.text = coin.ToString();
     }
 
     public void SettingButton()
     {
-        GameManager.Instance.ChangeGameState(GameState.Setting);
+        UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasSetting>().SetState(this);
+        GameManager.Instance.ChangeGameState(GameState.Setting);
     }
 }

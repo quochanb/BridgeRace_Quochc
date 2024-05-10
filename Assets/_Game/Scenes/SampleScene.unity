@@ -327,6 +327,9 @@ MonoBehaviour:
   characters:
   - {fileID: 8694474819347251454, guid: 184cde6d62f8bc1438f5fe029267bd16, type: 3}
   - {fileID: 8983678598775158940, guid: 40f0effac6aa5b742a6976872723c16a, type: 3}
+  - {fileID: 6347776878725736512, guid: 9f8abf9ee10dc6f4c92f0393935ea989, type: 3}
+  - {fileID: 2312119574189157141, guid: f8e5d8b83908c26489f6c942815bc082, type: 3}
+  - {fileID: 6475908545176357415, guid: b3902c7fccc44a448b4277b2e1e74153, type: 3}
   currentLevel: {fileID: 0}
 --- !u!4 &514761557
 Transform:

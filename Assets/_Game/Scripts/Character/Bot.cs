@@ -30,15 +30,12 @@ public class Bot : Character
     private void Update()
     {
         listTarget = stage.GetBrickPoint(this.ColorType);
-
-        //if (rb.velocity.magnitude > speed)
-        //{
-        //    rb.velocity = Vector3.ClampMagnitude(rb.velocity, speed);
-        //}
-
-        if (currentState != null)
+        if (GameManager.Instance.currentState == GameState.GamePlay)
         {
-            currentState.OnExecute(this);
+            if (currentState != null)
+            {
+                currentState.OnExecute(this);
+            }
         }
     }
 
@@ -78,6 +75,7 @@ public class Bot : Character
 
     //kiem tra xem da den muc tieu chua
     public bool IsDestination => Vector3.Distance(Tf.position, destination + (Tf.position.y - destination.y) * Vector3.up) < 0.1f;
+
 
     //set diem den
     public void SetDestination(Vector3 destination)

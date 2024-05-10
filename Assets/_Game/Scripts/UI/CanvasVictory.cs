@@ -5,20 +5,24 @@ using UnityEngine;
 
 public class CanvasVictory : UICanvas
 {
-    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI coinText;
 
-    public void SetBestScore(int score)
+    public void SetBestScore(int coin)
     {
-        scoreText.text = score.ToString();
+        coinText.text = coin.ToString();
     }
 
     public void MainMenuButton()
     {
+        UIManager.Instance.CloseAll();
         GameManager.Instance.ChangeGameState(GameState.MainMenu);
     }
 
     public void NextButton()
     {
+        Close(0);
+        UIManager.Instance.OpenUI<CanvasJoystick>();
+        UIManager.Instance.OpenUI<CanvasGamePlay>();
         GameManager.Instance.ChangeGameState(GameState.NextLevel);
     }
 }

@@ -24,6 +24,10 @@ public class ConfettiParticle : MonoBehaviour
 
     public void OnPlayParticle()
     {
-        particle.Play();
+        if (particle != null)
+        {
+            particle.Play();
+
+        }
     }
 }
