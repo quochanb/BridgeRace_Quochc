@@ -15,7 +15,7 @@ public class CanvasFail : UICanvas
     public void MainMenuButton()
     {
         UIManager.Instance.CloseAll();
-        GameManager.Instance.ChangeGameState(GameState.MainMenu);
+        GameManager.Instance.OnMainMenu();
     }
 
     public void PlayAgainButton()
@@ -23,6 +23,6 @@ public class CanvasFail : UICanvas
         Close(0);
         UIManager.Instance.OpenUI<CanvasJoystick>();
         UIManager.Instance.OpenUI<CanvasGamePlay>();
-        GameManager.Instance.ChangeGameState(GameState.Resume);
+        GameManager.Instance.OnResume();
     }
 }

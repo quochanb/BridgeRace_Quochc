@@ -29,20 +29,20 @@ public class CanvasSetting : UICanvas
     public void MainMenuButton()
     {
         UIManager.Instance.CloseAll();
-        GameManager.Instance.ChangeGameState(GameState.MainMenu);
+        GameManager.Instance.OnMainMenu();
     }
 
     public void ContinueButton()
     {
-        UIManager.Instance.CloseAll();
+        Close(0);
         UIManager.Instance.OpenUI<CanvasJoystick>();
         UIManager.Instance.OpenUI<CanvasGamePlay>();
-        GameManager.Instance.ChangeGameState(GameState.Continue);
+        GameManager.Instance.OnContinue();
     }
 
     public void CloseButton()
     {
-        UIManager.Instance.CloseAll();
-        GameManager.Instance.ChangeGameState(GameState.MainMenu);
+        Close(0);
+        GameManager.Instance.OnMainMenu();
     }
 }

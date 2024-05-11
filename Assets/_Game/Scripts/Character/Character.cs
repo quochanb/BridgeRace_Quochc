@@ -152,18 +152,25 @@ public class Character : ColorObject
             AddBrick();
             Destroy(other.gameObject);
         }
+        if (other.CompareTag(Constants.TAG_FINISH))
+        {
+            ChangeAnim(Constants.ANIM_DANCE);
+
+            Tf.position = level.GetFinishPoint();
+            Tf.rotation = Quaternion.LookRotation(Vector3.back);
+
+            for (int i = brickList.Count - 1; i >= 0; i--)
+            {
+                if (brickList[i] != null)
+                {
+                    Destroy(brickList[i].gameObject);
+                }
+            }
+        }
         if (other.CompareTag(Constants.TAG_ENDBOX) && !isCollided)
         {
-            isCollided = true;
             stage.ClearBrick(this.ColorType);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(Constants.TAG_ENDBOX) && isCollided)
-        {
-            return;
+            isCollided = true;
         }
     }
 }

@@ -7355,8 +7355,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2423866286103053926}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.411, y: 21.5, z: 55.5}
-  m_LocalScale: {x: 11.185792, y: 3, z: 0.16666669}
+  m_LocalPosition: {x: 0.473, y: 21.5, z: 55.5}
+  m_LocalScale: {x: 1.3526721, y: 3, z: 0.16666669}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2423866287638892571}
@@ -8228,8 +8228,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2423866286229846052}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -9.4473, y: 21.5, z: 55.5}
-  m_LocalScale: {x: 2.40552, y: 3, z: 0.16666669}
+  m_LocalPosition: {x: -7.0513, y: 21.5, z: 55.5}
+  m_LocalScale: {x: 7.1975565, y: 3, z: 0.16666669}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2423866288019479282}
@@ -13437,7 +13437,6 @@ GameObject:
   - component: {fileID: 2423866286693781971}
   - component: {fileID: 2423866286693781970}
   - component: {fileID: 2423866286693781969}
-  - component: {fileID: 2423866286693781974}
   m_Layer: 0
   m_Name: Stage_2
   m_TagString: Stage
@@ -13523,8 +13522,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.55088043}
-  m_Center: {x: 0, y: 0, z: -1.7019463}
+  m_Size: {x: 1, y: 1, z: 6.219063}
+  m_Center: {x: 0, y: 0, z: 0.9544563}
 --- !u!114 &2423866286693781969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13543,19 +13542,6 @@ MonoBehaviour:
   spawnBrickPoint: {fileID: 2423866286861722215}
   emptyList: []
   listColor: 
---- !u!65 &2423866286693781974
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2423866286693781980}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2423866286699272082
 GameObject:
   m_ObjectHideFlags: 0
@@ -15925,7 +15911,6 @@ GameObject:
   - component: {fileID: 2423866286974239818}
   - component: {fileID: 2423866286974241717}
   - component: {fileID: 2423866286974239816}
-  - component: {fileID: 2423866286974239817}
   m_Layer: 0
   m_Name: Stage_3
   m_TagString: Stage
@@ -16010,8 +15995,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 4.774597}
+  m_Center: {x: 0, y: 0, z: 1.8872986}
 --- !u!114 &2423866286974239816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16030,19 +16015,6 @@ MonoBehaviour:
   spawnBrickPoint: {fileID: 2423866286185424813}
   emptyList: []
   listColor: 
---- !u!65 &2423866286974239817
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2423866286974241719}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1.000061}
-  m_Center: {x: 0, y: 0, z: -2.0426178}
 --- !u!1 &2423866286984938311
 GameObject:
   m_ObjectHideFlags: 0
@@ -20081,8 +20053,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2423866287345354789}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 10.3277, y: 21.5, z: 55.5}
-  m_LocalScale: {x: 2.3446798, y: 3, z: 0.16666669}
+  m_LocalPosition: {x: 7.9693, y: 21.5, z: 55.5}
+  m_LocalScale: {x: 7.061472, y: 3, z: 0.16666669}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2423866287426242666}

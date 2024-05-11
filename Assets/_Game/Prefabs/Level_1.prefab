@@ -23754,7 +23754,6 @@ GameObject:
   - component: {fileID: 8684180982573658588}
   - component: {fileID: 8684180982573661731}
   - component: {fileID: 8684180982573658590}
-  - component: {fileID: 8684180982573658591}
   m_Layer: 0
   m_Name: Stage_3
   m_TagString: Stage
@@ -23839,8 +23838,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 6.3951874}
+  m_Center: {x: 0, y: 0, z: 3.5232925}
 --- !u!114 &8684180982573658590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23859,19 +23858,6 @@ MonoBehaviour:
   spawnBrickPoint: {fileID: 8684180983362409019}
   emptyList: []
   listColor: 
---- !u!65 &8684180982573658591
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8684180982573661729}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1.000061}
-  m_Center: {x: 0, y: 0, z: -2.0426178}
 --- !u!1 &8684180982584107388
 GameObject:
   m_ObjectHideFlags: 0
@@ -27528,7 +27514,6 @@ GameObject:
   - component: {fileID: 8684180982796510277}
   - component: {fileID: 8684180982796510276}
   - component: {fileID: 8684180982796510279}
-  - component: {fileID: 8684180982796510272}
   m_Layer: 0
   m_Name: Stage_2
   m_TagString: Stage
@@ -27614,8 +27599,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.55088043}
-  m_Center: {x: 0, y: 0, z: -1.7019463}
+  m_Size: {x: 1, y: 1, z: 7.761421}
+  m_Center: {x: 0, y: 0, z: 2.763195}
 --- !u!114 &8684180982796510279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27634,19 +27619,6 @@ MonoBehaviour:
   spawnBrickPoint: {fileID: 8684180982696531953}
   emptyList: []
   listColor: 
---- !u!65 &8684180982796510272
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8684180982796510282}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8684180982803512270
 GameObject:
   m_ObjectHideFlags: 0

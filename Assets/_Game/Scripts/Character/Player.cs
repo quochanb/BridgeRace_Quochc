@@ -8,24 +8,26 @@ public class Player : Character
     public delegate void WinGameDelegate();
     public static WinGameDelegate winGameEvent;
     [SerializeField] private float speed = 5f;
-    int coin = 0;
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (GameManager.Instance.currentState == GameState.GamePlay)
         {
-            Vector3 nextPos = Tf.position + Joystick.direction * speed * Time.deltaTime;
-
-            if (CanMove(nextPos) && Joystick.direction != Vector3.zero)
+            if (Input.GetMouseButton(0))
             {
-                Tf.position = CheckGround(nextPos);
-                Tf.rotation = Quaternion.LookRotation(Joystick.direction);
-                ChangeAnim(Constants.ANIM_RUN);
+                Vector3 nextPos = Tf.position + Joystick.direction * speed * Time.deltaTime;
+
+                if (CanMove(nextPos) && Joystick.direction != Vector3.zero)
+                {
+                    Tf.position = CheckGround(nextPos);
+                    Tf.rotation = Quaternion.LookRotation(Joystick.direction);
+                    ChangeAnim(Constants.ANIM_RUN);
+                }
             }
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            ChangeAnim(Constants.ANIM_IDLE);
+            if (Input.GetMouseButtonUp(0))
+            {
+                ChangeAnim(Constants.ANIM_IDLE);
+            }
         }
     }
 
@@ -34,15 +36,12 @@ public class Player : Character
         base.OnTriggerEnter(other);
         if (other.CompareTag(Constants.TAG_BRICK) && other.GetComponent<ColorObject>().ColorType == ColorType)
         {
-            UIManager.Instance.GetUI<CanvasGamePlay>().UpdateScore(coin += 10);
+            GameManager.Instance.OnUpdateCoin();
         }
         if (other.CompareTag(Constants.TAG_FINISH))
         {
             winGameEvent?.Invoke();
-            Tf.position = level.GetFinishPoint();
-            ChangeAnim(Constants.ANIM_DANCE);
-            UIManager.Instance.GetUI<CanvasVictory>().SetBestScore(coin);
-            GameManager.Instance.ChangeGameState(GameState.Victory);
+            GameManager.Instance.OnVictory();
         }
     }
 }

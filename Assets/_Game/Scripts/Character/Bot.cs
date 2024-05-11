@@ -10,7 +10,8 @@ public class Bot : Character
 
     //[SerializeField] private float speed = 20f;
     private int index = 0;
-    private int botBrick;
+    private int botBrick = 0;
+    private bool isStair = false;
     private Vector3 destination;
     private IState currentState;
 
@@ -29,13 +30,17 @@ public class Bot : Character
 
     private void Update()
     {
-        listTarget = stage.GetBrickPoint(this.ColorType);
         if (GameManager.Instance.currentState == GameState.GamePlay)
         {
+            listTarget = stage.GetBrickPoint(this.ColorType);
             if (currentState != null)
             {
                 currentState.OnExecute(this);
             }
+        }
+        else
+        {
+            return;
         }
     }
 
@@ -66,11 +71,15 @@ public class Bot : Character
     //xay cau
     public void Build()
     {
-        destination = level.GetFinishPoint();
+        isStair = CheckStair();
+        if (isStair && GameManager.Instance.currentState == GameState.GamePlay)
+        {
+            destination = level.GetFinishPoint();
 
-        SetDestination(destination);
-        CheckStair();
-        ChangeAnim(Constants.ANIM_RUN);
+            SetDestination(destination);
+
+            ChangeAnim(Constants.ANIM_RUN);
+        }
     }
 
     //kiem tra xem da den muc tieu chua
@@ -99,16 +108,17 @@ public class Bot : Character
             ColorObject stairColor = hit.collider.GetComponent<ColorObject>();
             if (stairColor.ColorType == this.ColorType)
             {
-                return false;
+                return true;
             }
             else
             {
                 RemoveBrick();
                 BotBrick--;
                 stairColor.ChangeColor(this.ColorType);
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     //change state
@@ -132,10 +142,7 @@ public class Bot : Character
         base.OnTriggerEnter(other);
         if (other.CompareTag(Constants.TAG_FINISH))
         {
-            Tf.position = level.GetFinishPoint();
-            ChangeAnim(Constants.ANIM_DANCE);
-            GameManager.Instance.ChangeGameState(GameState.Fail);
+            GameManager.Instance.OnFail();
         }
     }
-
 }

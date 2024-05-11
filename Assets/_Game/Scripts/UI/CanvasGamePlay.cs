@@ -11,10 +11,10 @@ public class CanvasGamePlay : UICanvas
     public override void SetUp()
     {
         base.SetUp();
-        UpdateScore(0);
+        UpdateCoin(0);
     }
 
-    public void UpdateScore(int coin)
+    public void UpdateCoin(int coin)
     {
         coinText.text = coin.ToString();
     }
@@ -23,6 +23,6 @@ public class CanvasGamePlay : UICanvas
     {
         UIManager.Instance.CloseAll();
         UIManager.Instance.OpenUI<CanvasSetting>().SetState(this);
-        GameManager.Instance.ChangeGameState(GameState.Setting);
+        GameManager.Instance.OnSetting();
     }
 }

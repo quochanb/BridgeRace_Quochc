@@ -112,3 +112,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorData: {fileID: 11400000, guid: 1528b91712b9ae2449482187cc3558d3, type: 2}
   stage: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  respawnTime: 0

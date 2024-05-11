@@ -7,7 +7,7 @@ public class Stage : MonoBehaviour
     [SerializeField] private float width, height;
     [SerializeField] private Transform spawnBrickPoint;
 
-    private float spaceBrick = 2f;
+    private float spaceBrick = 2.2f;
     private bool isCollided = false;
     private ColorType color;
     private int[] brickCount = new int[10];
@@ -156,12 +156,12 @@ public class Stage : MonoBehaviour
             if (isCollided)
             {
                 other.GetComponent<Character>().stage = this;
-                
+
                 for (int i = emptyBrickPoints.Count - 1; i >= 0 && listColor.Count != 0; i--)
                 {
                     SpawnBrick(emptyBrickPoints[i]);
                 }
-                isCollided =  false;
+                isCollided = false;
             }
         }
     }

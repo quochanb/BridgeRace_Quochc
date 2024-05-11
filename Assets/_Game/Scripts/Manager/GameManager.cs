@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum GameState
@@ -10,15 +11,13 @@ public enum GameState
     Setting = 2,
     Victory = 3,
     Fail = 4,
-    NextLevel = 5,
-    Resume = 6,
-    Continue = 7
 }
 
 public class GameManager : Singleton<GameManager>
 {
     public GameState currentState;
     private int levelNumber;
+    private int coin = 0;
 
     private void Awake()
     {
@@ -34,101 +33,78 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         levelNumber = PlayerPrefs.GetInt("game_level", 0);
-        ChangeGameState(GameState.MainMenu);
+        OnMainMenu();
     }
 
     //change state
     public void ChangeGameState(GameState newState)
     {
         this.currentState = newState;
-        switch (newState)
-        {
-            case GameState.MainMenu:
-                OnMainMenu();
-                break;
-            case GameState.GamePlay:
-                OnGamePlay();
-                break;
-            case GameState.Setting:
-                OnSetting();
-                break;
-            case GameState.Victory:
-                OnVictory();
-                break;
-            case GameState.Fail:
-                OnFail();
-                break;
-            case GameState.NextLevel:
-                OnNextLevel();
-                break;
-            case GameState.Resume:
-                OnResume();
-                break;
-            case GameState.Continue:
-                OnContinue();
-                break;
-            default:
-                break;
-        }
     }
 
-    //state main menu
+    //goi khi can xu ly main menu
     public void OnMainMenu()
     {
         UIManager.Instance.OpenUI<CanvasMainMenu>().SetState(levelNumber);
         LevelManager.Instance.OnReset();
-        Time.timeScale = 0;
+        ChangeGameState(GameState.MainMenu);
     }
 
-    //state play game
+    //goi khi can xu ly game play
     public void OnGamePlay()
     {
         levelNumber = 0;
         OnSetup();
     }
 
-    //state setting
+    //goi khi can xu ly setting
     public void OnSetting()
     {
-        Time.timeScale = 0;
+        ChangeGameState(GameState.Setting);
     }
 
-    //state victory
+    //goi khi can xu ly victory
     public void OnVictory()
     {
-        //UIManager.Instance.CloseUI<CanvasJoystick>(0);
-        StartCoroutine(DelayTimeVictory(2));
+        ChangeGameState(GameState.Victory);
+        StartCoroutine(DelayTimeVictory(1));
     }
 
-    //state fail
+    //goi khi can xu ly fail
     public void OnFail()
     {
         int currentNumberLevel = levelNumber;
         PlayerPrefs.SetInt("game_level", currentNumberLevel);
-        StartCoroutine(DelayTime(1));
-        UIManager.Instance.OpenUI<CanvasFail>();
-        Time.timeScale = 0;
+        ChangeGameState(GameState.Fail);
+        StartCoroutine(DelayTimeFail(1));
     }
 
-    //state next
-    private void OnNextLevel()
+    //goi khi can xu ly next level
+    public void OnNextLevel()
     {
         levelNumber++;
         PlayerPrefs.SetInt("game_level", levelNumber);
+        UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(coin);
         OnSetup();
     }
 
-    //state resume
-    private void OnResume()
+    //goi khi can xu ly choi lai
+    public void OnResume()
     {
         levelNumber = PlayerPrefs.GetInt("game_level");
         OnSetup();
     }
 
-    //state continue
-    private void OnContinue()
+    //goi khi can xu ly tiep tuc game
+    public void OnContinue()
     {
-        Time.timeScale = 1;
+        ChangeGameState(GameState.GamePlay);
+    }
+
+    //
+    public void OnUpdateCoin()
+    {
+        UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(coin += 10);
     }
 
     //setup level
@@ -137,19 +113,22 @@ public class GameManager : Singleton<GameManager>
         LevelManager.Instance.OnReset();
         LevelManager.Instance.OnLoadLevel(levelNumber);
         LevelManager.Instance.OnLoadCharacter();
-        Time.timeScale = 1;
+        ChangeGameState(GameState.GamePlay);
     }
 
-    //delay time
-    IEnumerator DelayTime(float time)
+    //delay time fail
+    IEnumerator DelayTimeFail(float time)
     {
         yield return new WaitForSeconds(time);
+        UIManager.Instance.OpenUI<CanvasFail>();
+        UIManager.Instance.GetUI<CanvasFail>().SetBestScore(coin);
     }
 
+    //delay time win
     IEnumerator DelayTimeVictory(float time)
     {
         yield return new WaitForSeconds(time);
         UIManager.Instance.OpenUI<CanvasVictory>();
-        //Time.timeScale = 0;
+        UIManager.Instance.GetUI<CanvasVictory>().SetBestScore(coin);
     }
 }
