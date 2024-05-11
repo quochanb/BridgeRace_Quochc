@@ -40,7 +40,7 @@ public class Bot : Character
         }
         else
         {
-            return;
+            agent.isStopped = true;
         }
     }
 
@@ -72,7 +72,7 @@ public class Bot : Character
     public void Build()
     {
         isStair = CheckStair();
-        if (isStair && GameManager.Instance.currentState == GameState.GamePlay)
+        if (isStair)
         {
             destination = level.GetFinishPoint();
 
