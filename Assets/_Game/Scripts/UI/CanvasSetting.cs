@@ -17,6 +17,8 @@ public class CanvasSetting : UICanvas
         if(canvas is CanvasMainMenu)
         {
             buttons[2].gameObject.SetActive(true);
+            buttons[3].gameObject.SetActive(true);
+            buttons[4].gameObject.SetActive(true);
         }
 
         if(canvas is CanvasGamePlay)
