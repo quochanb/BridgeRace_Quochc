@@ -7,8 +7,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] Level[] levels;
     [SerializeField] Character[] characters;
 
-    public Level currentLevel;
-
+    private Level currentLevel;
     private CameraFollow cameraFollow;
 
     List<Character> characterList = new List<Character>();
@@ -21,7 +20,17 @@ public class LevelManager : Singleton<LevelManager>
         cameraFollow.enabled = false;
     }
 
-    //reset trang thai khi ket thuc game
+    private void OnEnable()
+    {
+        Player.winGameEvent += SetPositionOfBot;
+    }
+
+    private void OnDisable()
+    {
+        Player.winGameEvent -= SetPositionOfBot;
+    }
+
+    //reset trang thai
     public void OnReset()
     {
         if (currentLevel != null)
@@ -43,9 +52,15 @@ public class LevelManager : Singleton<LevelManager>
     //tao prefab level moi
     public void OnLoadLevel(int level)
     {
-        currentLevel = Instantiate(levels[level]);
-
-        GetStartPoint();
+        if (level < levels.Length)
+        {
+            currentLevel = Instantiate(levels[level]);
+            GetStartPoint();
+        }
+        else
+        {
+            Debug.LogError("No more level to load");
+        }
     }
 
     //spawn character
@@ -90,5 +105,17 @@ public class LevelManager : Singleton<LevelManager>
                 listStartPoint.Add(point);
             }
         }
+    }
+
+    //set vi tri bot khi player win game
+    public void SetPositionOfBot()
+    {
+        for(int i = 1;i < characters.Length;i++)
+        {
+            characterList[i].GetComponent<Bot>().DeactiveNavmesh();
+        }
+        
+        characterList[1].Tf.position = currentLevel.GetFinishPoint(1);
+        characterList[2].Tf.position = currentLevel.GetFinishPoint(2);
     }
 }

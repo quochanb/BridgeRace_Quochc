@@ -15,8 +15,6 @@ public class Character : ColorObject
     public Stage stage;
     public Level level;
 
-    private bool isCollided = false;
-
     List<Brick> brickList = new List<Brick>();
 
     private void Awake()
@@ -26,7 +24,7 @@ public class Character : ColorObject
         OnInit();
     }
 
-    //khoi tao cac thong so ban dau cua character
+    //khoi tao
     public virtual void OnInit()
     {
         ChangeAnim(Constants.ANIM_IDLE);
@@ -97,12 +95,12 @@ public class Character : ColorObject
                 //stair khac mau
                 else
                 {
-                    //truong hop het gach
+                    //het gach
                     if (brickList.Count == 0)
                     {
                         return false;
                     }
-                    //truong hop con gach
+                    //con gach
                     else
                     {
                         RemoveBrick();
@@ -126,7 +124,7 @@ public class Character : ColorObject
         return brickList.Count;
     }
 
-    //thay doi anim
+    //change anim
     protected void ChangeAnim(string animName)
     {
         if (currentAnim != animName)
@@ -152,11 +150,20 @@ public class Character : ColorObject
             AddBrick();
             Destroy(other.gameObject);
         }
-        if (other.CompareTag(Constants.TAG_FINISH))
-        {
-            ChangeAnim(Constants.ANIM_DANCE);
 
-            Tf.position = level.GetFinishPoint();
+        if (other.CompareTag(Constants.TAG_ENDBOX))
+        {
+            stage.ClearBrick(this.ColorType);
+            other.tag = Constants.TAG_UNTAGGED;
+        }
+
+        if (other.CompareTag(Constants.TAG_CYLINDER))
+        {
+            other.GetComponent<ColorObject>().ChangeColor(this.ColorType);
+        }
+
+        if (other.CompareTag(Constants.TAG_FINISH) || other.CompareTag(Constants.TAG_ORDERBOX))
+        {
             Tf.rotation = Quaternion.LookRotation(Vector3.back);
 
             for (int i = brickList.Count - 1; i >= 0; i--)
@@ -166,11 +173,8 @@ public class Character : ColorObject
                     Destroy(brickList[i].gameObject);
                 }
             }
-        }
-        if (other.CompareTag(Constants.TAG_ENDBOX) && !isCollided)
-        {
-            stage.ClearBrick(this.ColorType);
-            isCollided = true;
+
+            other.GetComponent<ColorObject>().ChangeColor(this.ColorType);
         }
     }
 }

@@ -9,13 +9,13 @@ public class Stage : MonoBehaviour
 
     private float spaceBrick = 2.2f;
     private bool isCollided = false;
-    private ColorType color;
     private int[] brickCount = new int[10];
+    private ColorType color;
 
     List<Brick> bricks = new List<Brick>();
-    List<Vector3> emptyBrickPoints = new List<Vector3>();
-    [SerializeField] List<Vector3AndTime> emptyList = new List<Vector3AndTime>();
-    [SerializeField] List<ColorType> listColor = new List<ColorType>();
+    List<Vector3> spawnBrickPointList = new List<Vector3>();
+    [SerializeField] List<ColorType> colorList = new List<ColorType>();
+    [SerializeField] List<Vector3AndTime> emptyBrickPointList = new List<Vector3AndTime>();
 
     private void Awake()
     {
@@ -24,14 +24,16 @@ public class Stage : MonoBehaviour
 
     private void Update()
     {
-        for (int i = emptyList.Count - 1; i >= 0; i--)
+        //respawn brick
+        for (int i = emptyBrickPointList.Count - 1; i >= 0; i--)
         {
             //giam time qua cac frame
-            emptyList[i].RespawnTime -= Time.deltaTime;
-            if (emptyList[i].RespawnTime < 0)
+            emptyBrickPointList[i].RespawnTime -= Time.deltaTime;
+
+            if (emptyBrickPointList[i].RespawnTime < 0)
             {
-                SpawnBrick(emptyList[i].Position);
-                emptyList.RemoveAt(i);
+                SpawnBrick(emptyBrickPointList[i].Position);
+                emptyBrickPointList.RemoveAt(i);
             }
         }
     }
@@ -46,7 +48,7 @@ public class Stage : MonoBehaviour
                 float xOffset = -(width - 1) * spaceBrick / 2f;
                 float yOffset = -(height - 1) * spaceBrick / 2f;
 
-                emptyBrickPoints.Add(new Vector3(xOffset + i * spaceBrick, 0.3f, yOffset + j * spaceBrick));
+                spawnBrickPointList.Add(new Vector3(xOffset + i * spaceBrick, 0.3f, yOffset + j * spaceBrick));
             }
         }
     }
@@ -54,48 +56,55 @@ public class Stage : MonoBehaviour
     //spawn brick
     public void SpawnBrick(Vector3 position)
     {
-        if (listColor.Count == 0)
+        if (colorList.Count == 0)
+        {
             return;
+        }
         //lay random vi tri
         position = GetRandomEmptyPosition();
         Brick brick = Instantiate(prefab, position, Quaternion.identity, this.spawnBrickPoint);
         //set lai local position
         brick.Tf.localPosition = position;
         //random mau cho brick
-        int index = Random.Range(0, listColor.Count);
-        color = listColor[index];
+        int index = Random.Range(0, colorList.Count);
+        color = colorList[index];
         brick.ChangeColor(color);
         //gan brick cho stage hien tai
         brick.stage = this;
         //add brick vao list de quan ly
         bricks.Add(brick);
-        //xoa vi tri vua sinh ra brick trong empty list
-        emptyBrickPoints.Remove(position);
+        //xoa vi tri vua sinh ra brick
+        spawnBrickPointList.Remove(position);
 
+        //dem so luong gach tung mau
         brickCount[(int)color]++;
         if (brickCount[(int)color] >= width * height / 5)
         {
-            listColor.Remove(color);
+            colorList.Remove(color);
         }
     }
 
     //goi khi character va cham voi brick
     public void DespawnBrick(Brick b, Vector3 spawnPosition)
     {
+        //xoa brick trong list
         bricks.Remove(b);
+        //giam so luong gach trong mang
         brickCount[(int)b.ColorType]--;
-        if (!listColor.Contains(b.ColorType))
+        //add lai color
+        if (!colorList.Contains(b.ColorType))
         {
-            listColor.Add(b.ColorType);
+            colorList.Add(b.ColorType);
         }
-        float respawnTime = Random.Range(2f, 5f);
 
+        float respawnTime = Random.Range(4f, 7f);
         AddEmptyBrickPoint(spawnPosition, respawnTime);
     }
 
     //goi khi character sang stage moi
     public void ClearBrick(ColorType colorType)
     {
+        //xoa het gach trong brick list
         for (int i = bricks.Count - 1; i >= 0; i--)
         {
             if (bricks[i].ColorType == colorType)
@@ -104,18 +113,27 @@ public class Stage : MonoBehaviour
                 bricks.RemoveAt(i);
             }
         }
-        emptyList.Clear();
+        //xoa mau trong color list
+        for(int i = 0; i < colorList.Count; i++)
+        {
+            if (colorList[i] == colorType)
+            {
+                colorList.RemoveAt(i);
+            }
+        }
+
+        emptyBrickPointList.Clear();
     }
 
     //them vi tri ko co brick vao list moi va list ban dau
     public void AddEmptyBrickPoint(Vector3 position, float time)
     {
-        emptyList.Add(new Vector3AndTime(position, time));
-        emptyBrickPoints.Add(position);
+        emptyBrickPointList.Add(new Vector3AndTime(position, time));
+        spawnBrickPointList.Add(position);
 
     }
 
-    //lay ra vi tri brick co mau chi dinh
+    //lay ra list vi tri brick co mau chi dinh
     public List<Vector3> GetBrickPoint(ColorType colorType)
     {
         List<Vector3> list = new List<Vector3>();
@@ -133,16 +151,16 @@ public class Stage : MonoBehaviour
     //luu color cua charater
     public void GetColorCharacter(ColorType colorType)
     {
-        if (!listColor.Contains(colorType))
+        if (!colorList.Contains(colorType))
         {
-            listColor.Add(colorType);
+            colorList.Add(colorType);
         }
     }
 
     //lay vi tri ngau nhien de spawn brick
     private Vector3 GetRandomEmptyPosition()
     {
-        return emptyBrickPoints[Random.Range(0, emptyBrickPoints.Count)];
+        return spawnBrickPointList[Random.Range(0, spawnBrickPointList.Count)];
     }
 
     private void OnTriggerEnter(Collider other)
@@ -151,26 +169,18 @@ public class Stage : MonoBehaviour
         if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
         {
             isCollided = true;
-
             this.GetColorCharacter(other.GetComponent<Character>().ColorType);
+
             if (isCollided)
             {
                 other.GetComponent<Character>().stage = this;
 
-                for (int i = emptyBrickPoints.Count - 1; i >= 0 && listColor.Count != 0; i--)
+                for (int i = spawnBrickPointList.Count - 1; i >= 0 && colorList.Count != 0; i--)
                 {
-                    SpawnBrick(emptyBrickPoints[i]);
+                    SpawnBrick(spawnBrickPointList[i]);
                 }
                 isCollided = false;
             }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(Constants.TAG_PLAYER) || other.CompareTag(Constants.TAG_BOT))
-        {
-            return;
         }
     }
 }

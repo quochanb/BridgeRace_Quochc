@@ -16,4 +16,7 @@ public class Constants
     public const string TAG_STAGE = "Stage";
     public const string TAG_FINISH = "FinishBox";
     public const string TAG_ENDBOX = "EndBox";
+    public const string TAG_UNTAGGED = "Untagged";
+    public const string TAG_CYLINDER = "Cylinder";
+    public const string TAG_ORDERBOX = "OrderBox";
 }

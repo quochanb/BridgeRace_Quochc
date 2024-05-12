@@ -8,7 +8,6 @@ public class Bot : Character
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Rigidbody rb;
 
-    //[SerializeField] private float speed = 20f;
     private int index = 0;
     private int botBrick = 0;
     private bool isStair = false;
@@ -32,11 +31,16 @@ public class Bot : Character
     {
         if (GameManager.Instance.currentState == GameState.GamePlay)
         {
+            agent.isStopped = false;
             listTarget = stage.GetBrickPoint(this.ColorType);
             if (currentState != null)
             {
                 currentState.OnExecute(this);
             }
+        }
+        else if (GameManager.Instance.currentState == GameState.Victory)
+        {
+            return;
         }
         else
         {
@@ -48,7 +52,6 @@ public class Bot : Character
     public override void OnInit()
     {
         base.OnInit();
-
         ChangeState(new IdleState());
     }
 
@@ -68,16 +71,14 @@ public class Bot : Character
         ChangeAnim(Constants.ANIM_RUN);
     }
 
-    //xay cau
+    //xay bac thang
     public void Build()
     {
         isStair = CheckStair();
         if (isStair)
         {
-            destination = level.GetFinishPoint();
-
+            destination = level.GetFinishPoint(0);
             SetDestination(destination);
-
             ChangeAnim(Constants.ANIM_RUN);
         }
     }
@@ -96,10 +97,10 @@ public class Bot : Character
     //lay ra so luong gach cua bot
     public int GetTargetBrick()
     {
-        return Random.Range(15, 20);
+        return Random.Range(10, 16);
     }
 
-    //check dieu kien de di len cau thang
+    //check dieu kien di chuyen
     public bool CheckStair()
     {
         RaycastHit hit;
@@ -137,12 +138,26 @@ public class Bot : Character
         }
     }
 
+    //goi khi player win game
+    public void DeactiveNavmesh()
+    {
+        agent.isStopped = true;
+        agent.enabled = false;
+    }
+
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
         if (other.CompareTag(Constants.TAG_FINISH))
         {
+            ChangeAnim(Constants.ANIM_DANCE);
+            Tf.position = level.GetFinishPoint(0);
             GameManager.Instance.OnFail();
+        }
+
+        if (other.CompareTag(Constants.TAG_ORDERBOX))
+        {
+            ChangeAnim(Constants.ANIM_IDLE);
         }
     }
 }

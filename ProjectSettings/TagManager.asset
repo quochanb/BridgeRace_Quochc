@@ -11,6 +11,8 @@ TagManager:
   - Bot
   - Stage
   - EndBox
+  - Cylinder
+  - OrderBox
   layers:
   - Default
   - TransparentFX

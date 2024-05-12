@@ -5,7 +5,7 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
     [SerializeField] private Transform[] startPoints;
-    [SerializeField] private Transform finishPoint;
+    [SerializeField] private Transform[] finishPoint;
 
     //lay random vi tri bat dau
     public Vector3 GetStartPoint()
@@ -15,13 +15,8 @@ public class Level : MonoBehaviour
     }
 
     //lay ra vi tri finish
-    public Vector3 GetFinishPoint()
+    public Vector3 GetFinishPoint(int index)
     {
-        return finishPoint.position;
-    }
-
-    public void Ondespawn()
-    {
-        Destroy(gameObject);
+        return finishPoint[index].position;
     }
 }

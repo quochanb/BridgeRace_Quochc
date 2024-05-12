@@ -6,10 +6,16 @@ using UnityEngine;
 public class CanvasFail : UICanvas
 {
     [SerializeField] TextMeshProUGUI coinText;
+    [SerializeField] TextMeshProUGUI levelName;
 
     public void SetBestScore(int coin)
     {
         coinText.text = coin.ToString();
+    }
+
+    public void SetLeveName(int levelNumber)
+    {
+        levelName.text = "LEVEL " + (levelNumber + 1).ToString();
     }
 
     public void MainMenuButton()

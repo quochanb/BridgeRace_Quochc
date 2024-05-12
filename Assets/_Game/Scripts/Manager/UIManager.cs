@@ -77,6 +77,7 @@ public class UIManager : Singleton<UIManager>
         return canvasPrefabs[typeof(T)] as T;
     }
 
+    //dong tat ca canvas
     public void CloseAll()
     {
         foreach (var canvas in canvasActives)

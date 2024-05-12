@@ -40,6 +40,8 @@ public class Player : Character
         }
         if (other.CompareTag(Constants.TAG_FINISH))
         {
+            ChangeAnim(Constants.ANIM_DANCE);
+            Tf.position = level.GetFinishPoint(0);
             winGameEvent?.Invoke();
             GameManager.Instance.OnVictory();
         }

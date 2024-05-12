@@ -50,13 +50,6 @@ public class GameManager : Singleton<GameManager>
         ChangeGameState(GameState.MainMenu);
     }
 
-    //goi khi can xu ly game play
-    public void OnGamePlay()
-    {
-        levelNumber = 0;
-        OnSetup();
-    }
-
     //goi khi can xu ly setting
     public void OnSetting()
     {
@@ -67,7 +60,7 @@ public class GameManager : Singleton<GameManager>
     public void OnVictory()
     {
         ChangeGameState(GameState.Victory);
-        StartCoroutine(DelayTimeVictory(1));
+        StartCoroutine(DelayTimeVictory(2));
     }
 
     //goi khi can xu ly fail
@@ -79,13 +72,23 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(DelayTimeFail(1));
     }
 
+    //goi khi can xu ly game play
+    public void OnGamePlay()
+    {
+        levelNumber = 0;
+        OnSetup();
+    }
+
     //goi khi can xu ly next level
     public void OnNextLevel()
     {
-        levelNumber++;
-        PlayerPrefs.SetInt("game_level", levelNumber);
-        UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(coin);
-        OnSetup();
+        if(levelNumber < 2)
+        {
+            levelNumber++;
+            PlayerPrefs.SetInt("game_level", levelNumber);
+            UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(coin);
+            OnSetup();
+        }
     }
 
     //goi khi can xu ly choi lai
@@ -101,7 +104,7 @@ public class GameManager : Singleton<GameManager>
         ChangeGameState(GameState.GamePlay);
     }
 
-    //
+    //goi khi character va cham voi brick
     public void OnUpdateCoin()
     {
         UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(coin += 10);
@@ -122,6 +125,7 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(time);
         UIManager.Instance.OpenUI<CanvasFail>();
         UIManager.Instance.GetUI<CanvasFail>().SetBestScore(coin);
+        UIManager.Instance.GetUI<CanvasFail>().SetLeveName(levelNumber);
     }
 
     //delay time win
@@ -130,5 +134,6 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(time);
         UIManager.Instance.OpenUI<CanvasVictory>();
         UIManager.Instance.GetUI<CanvasVictory>().SetBestScore(coin);
+        UIManager.Instance.GetUI<CanvasVictory>().SetLeveName(levelNumber);
     }
 }
