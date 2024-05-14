@@ -32,7 +32,8 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        levelNumber = PlayerPrefs.GetInt("game_level", 0);
+        levelNumber = PlayerPrefs.GetInt(Constants.DATA_LEVEL, 0);
+        coin = PlayerPrefs.GetInt(Constants.DATA_COIN, 0);
         OnMainMenu();
     }
 
@@ -67,7 +68,7 @@ public class GameManager : Singleton<GameManager>
     public void OnFail()
     {
         int currentNumberLevel = levelNumber;
-        PlayerPrefs.SetInt("game_level", currentNumberLevel);
+        PlayerPrefs.SetInt(Constants.DATA_LEVEL, currentNumberLevel);
         ChangeGameState(GameState.Fail);
         StartCoroutine(DelayTimeFail(1));
     }
@@ -85,7 +86,7 @@ public class GameManager : Singleton<GameManager>
         if(levelNumber < 2)
         {
             levelNumber++;
-            PlayerPrefs.SetInt("game_level", levelNumber);
+            PlayerPrefs.SetInt(Constants.DATA_LEVEL, levelNumber);
             UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(coin);
             OnSetup();
         }
@@ -94,7 +95,7 @@ public class GameManager : Singleton<GameManager>
     //goi khi can xu ly choi lai
     public void OnResume()
     {
-        levelNumber = PlayerPrefs.GetInt("game_level");
+        levelNumber = PlayerPrefs.GetInt(Constants.DATA_LEVEL);
         OnSetup();
     }
 
@@ -116,6 +117,7 @@ public class GameManager : Singleton<GameManager>
         LevelManager.Instance.OnReset();
         LevelManager.Instance.OnLoadLevel(levelNumber);
         LevelManager.Instance.OnLoadCharacter();
+        UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(PlayerPrefs.GetInt(Constants.DATA_COIN));
         ChangeGameState(GameState.GamePlay);
     }
 
@@ -135,5 +137,6 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.OpenUI<CanvasVictory>();
         UIManager.Instance.GetUI<CanvasVictory>().SetBestScore(coin);
         UIManager.Instance.GetUI<CanvasVictory>().SetLeveName(levelNumber);
+        PlayerPrefs.SetInt(Constants.DATA_COIN, coin);
     }
 }
