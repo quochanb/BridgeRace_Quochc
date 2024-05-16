@@ -20,28 +20,22 @@ public class Character : ColorObject
 
     private void Awake()
     {
-        level = FindObjectOfType<Level>();
-        stage = FindObjectOfType<Stage>();
         OnInit();
     }
 
     //khoi tao
     public virtual void OnInit()
     {
+        level = FindObjectOfType<Level>();
+        stage = FindObjectOfType<Stage>();
         ChangeAnim(Constants.ANIM_IDLE);
-    }
-
-    //goi khi muon huy 
-    public virtual void OnDespawn()
-    {
-        Destroy(gameObject);
     }
 
     //thu thap brick
     protected void AddBrick()
     {
         Brick brick = Instantiate(brickPrefab, brickHolder);
-        brick.ChangeColor(ColorType);
+        brick.ChangeColor(this.ColorType);
         brick.transform.localPosition = new Vector3(0, brickList.Count * 0.33f, 0);
         brickList.Add(brick);
     }
@@ -62,7 +56,7 @@ public class Character : ColorObject
     {
         foreach (Brick brick in brickList)
         {
-            Destroy(brick);
+            Destroy(brick.gameObject);
         }
         brickList.Clear();
     }
@@ -166,15 +160,7 @@ public class Character : ColorObject
         if (other.CompareTag(Constants.TAG_FINISH) || other.CompareTag(Constants.TAG_ORDERBOX))
         {
             Tf.rotation = Quaternion.LookRotation(Vector3.back);
-
-            for (int i = brickList.Count - 1; i >= 0; i--)
-            {
-                if (brickList[i] != null)
-                {
-                    Destroy(brickList[i].gameObject);
-                }
-            }
-
+            ClearBrick();
             other.GetComponent<ColorObject>().ChangeColor(this.ColorType);
         }
     }

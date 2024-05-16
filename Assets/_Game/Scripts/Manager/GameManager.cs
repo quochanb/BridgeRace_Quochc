@@ -83,7 +83,7 @@ public class GameManager : Singleton<GameManager>
     //goi khi can xu ly next level
     public void OnNextLevel()
     {
-        if(levelNumber < 2)
+        if (levelNumber < 2)
         {
             levelNumber++;
             PlayerPrefs.SetInt(Constants.DATA_LEVEL, levelNumber);

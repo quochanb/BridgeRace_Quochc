@@ -15,7 +15,7 @@ public class IdleState : IState
     public void OnExecute(Bot bot)
     {
         timer += Time.deltaTime;
-        if(timer >= delayTime)
+        if (timer >= delayTime)
         {
             bot.ChangeState(new CollectState());
         }

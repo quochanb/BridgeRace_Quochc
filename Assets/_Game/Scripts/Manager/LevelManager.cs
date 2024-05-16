@@ -110,11 +110,11 @@ public class LevelManager : Singleton<LevelManager>
     //set vi tri bot khi player win game
     public void SetPositionOfBot()
     {
-        for(int i = 1;i < characters.Length;i++)
+        for (int i = 1; i < characters.Length; i++)
         {
             characterList[i].GetComponent<Bot>().DeactiveNavmesh();
         }
-        
+
         characterList[1].Tf.position = currentLevel.GetFinishPoint(1);
         characterList[2].Tf.position = currentLevel.GetFinishPoint(2);
     }

@@ -114,7 +114,7 @@ public class Stage : MonoBehaviour
             }
         }
         //xoa mau trong color list
-        for(int i = 0; i < colorList.Count; i++)
+        for (int i = 0; i < colorList.Count; i++)
         {
             if (colorList[i] == colorType)
             {
@@ -170,7 +170,7 @@ public class Stage : MonoBehaviour
         {
             isCollided = true;
             this.GetColorCharacter(other.GetComponent<Character>().ColorType);
-
+            
             if (isCollided)
             {
                 other.GetComponent<Character>().stage = this;

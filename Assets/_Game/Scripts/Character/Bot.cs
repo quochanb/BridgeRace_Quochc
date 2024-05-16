@@ -104,20 +104,27 @@ public class Bot : Character
     public bool CheckStair()
     {
         RaycastHit hit;
-        Debug.DrawRay(Tf.position + Vector3.up, Vector3.down + Vector3.forward, Color.red, 3f);
-        if (Physics.Raycast(Tf.position + Vector3.up, Vector3.down + Vector3.forward, out hit, 5f, stairLayer))
+        if (Physics.Raycast(Tf.position, Vector3.down, out hit, 5f, stairLayer))
         {
             ColorObject stairColor = hit.collider.GetComponent<ColorObject>();
+            //cung mau
             if (stairColor.ColorType == this.ColorType)
             {
                 return true;
             }
             else
             {
-                RemoveBrick();
-                BotBrick--;
-                stairColor.ChangeColor(this.ColorType);
-                return false;
+                //het gach
+                if (this.GetBrickAmount() == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    RemoveBrick();
+                    stairColor.ChangeColor(ColorType);
+                    return true;
+                }
             }
         }
         return true;

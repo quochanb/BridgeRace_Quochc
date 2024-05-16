@@ -11,7 +11,7 @@ public class BuildState : IState
 
     public void OnExecute(Bot bot)
     {
-        if(bot.BotBrick <= 0)
+        if (bot.GetBrickAmount() <= 0)
         {
             bot.ChangeState(new CollectState());
         }

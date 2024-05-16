@@ -13,8 +13,7 @@ public class CollectState : IState
 
     public void OnExecute(Bot bot)
     {
-        bot.BotBrick = bot.GetBrickAmount();
-        if (bot.BotBrick >= targetBrick)
+        if (bot.GetBrickAmount() >= targetBrick)
         {
             bot.ChangeState(new BuildState());
         }
@@ -27,5 +26,5 @@ public class CollectState : IState
     public void OnExit(Bot bot)
     {
 
-    }    
+    }
 }
