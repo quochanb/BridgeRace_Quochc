@@ -19,6 +19,7 @@ public class Constants
     public const string TAG_UNTAGGED = "Untagged";
     public const string TAG_CYLINDER = "Cylinder";
     public const string TAG_ORDERBOX = "OrderBox";
+    public const string TAG_FALSEBOX = "FalseBox";
 
     public const string DATA_LEVEL = "data_save_level";
     public const string DATA_COIN = "data_save_coin";

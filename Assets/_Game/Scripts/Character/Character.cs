@@ -152,6 +152,11 @@ public class Character : ColorObject
             isCollided = true;
         }
 
+        if (other.CompareTag(Constants.TAG_FALSEBOX))
+        {
+            isCollided = false;
+        }
+
         if (other.CompareTag(Constants.TAG_CYLINDER))
         {
             other.GetComponent<ColorObject>().ChangeColor(this.ColorType);
