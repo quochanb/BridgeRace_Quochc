@@ -9,11 +9,12 @@ public class Character : ColorObject
     [SerializeField] protected LayerMask stairLayer, groundLayer;
     [SerializeField] protected Transform brickHolder;
     [SerializeField] protected SkinnedMeshRenderer skinnedMesh;
-
     protected string currentAnim;
 
     public Stage stage;
     public Level level;
+
+    private bool isCollided = false;
 
     List<Brick> brickList = new List<Brick>();
 
@@ -151,10 +152,10 @@ public class Character : ColorObject
             Destroy(other.gameObject);
         }
 
-        if (other.CompareTag(Constants.TAG_ENDBOX))
+        if (other.CompareTag(Constants.TAG_ENDBOX) && !isCollided)
         {
             stage.ClearBrick(this.ColorType);
-            other.tag = Constants.TAG_UNTAGGED;
+            isCollided = true;
         }
 
         if (other.CompareTag(Constants.TAG_CYLINDER))

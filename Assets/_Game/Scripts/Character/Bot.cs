@@ -104,7 +104,8 @@ public class Bot : Character
     public bool CheckStair()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Tf.position + new Vector3(0, 1, 1), Vector3.down, out hit, 5f, stairLayer))
+        Debug.DrawRay(Tf.position + Vector3.up, Vector3.down + Vector3.forward, Color.red, 3f);
+        if (Physics.Raycast(Tf.position + Vector3.up, Vector3.down + Vector3.forward, out hit, 5f, stairLayer))
         {
             ColorObject stairColor = hit.collider.GetComponent<ColorObject>();
             if (stairColor.ColorType == this.ColorType)
