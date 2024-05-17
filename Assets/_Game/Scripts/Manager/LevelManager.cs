@@ -20,16 +20,6 @@ public class LevelManager : Singleton<LevelManager>
         cameraFollow.enabled = false;
     }
 
-    private void OnEnable()
-    {
-        Player.winGameEvent += SetPositionOfBot;
-    }
-
-    private void OnDisable()
-    {
-        Player.winGameEvent -= SetPositionOfBot;
-    }
-
     //reset trang thai
     public void OnReset()
     {

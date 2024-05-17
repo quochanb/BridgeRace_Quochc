@@ -61,6 +61,7 @@ public class GameManager : Singleton<GameManager>
     public void OnVictory()
     {
         ChangeGameState(GameState.Victory);
+        LevelManager.Instance.SetPositionOfBot();
         StartCoroutine(DelayTimeVictory(2));
     }
 
