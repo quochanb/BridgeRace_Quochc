@@ -27,7 +27,6 @@ public class ConfettiParticle : MonoBehaviour
         if (particle != null)
         {
             particle.Play();
-
         }
     }
 }

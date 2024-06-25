@@ -20,14 +20,14 @@ public class Character : ColorObject
 
     private void Awake()
     {
+        level = FindObjectOfType<Level>();
+        stage = FindObjectOfType<Stage>();
         OnInit();
     }
 
     //khoi tao
     public virtual void OnInit()
     {
-        level = FindObjectOfType<Level>();
-        stage = FindObjectOfType<Stage>();
         ChangeAnim(Constants.ANIM_IDLE);
     }
 

@@ -9,16 +9,9 @@ public class Bot : Character
     [SerializeField] private Rigidbody rb;
 
     private int index = 0;
-    private int botBrick = 0;
     private bool isStair = false;
     private Vector3 destination;
     private IState currentState;
-
-    public int BotBrick
-    {
-        get { return botBrick; }
-        set { botBrick = value; }
-    }
 
     List<Vector3> listTarget = new List<Vector3>();
 

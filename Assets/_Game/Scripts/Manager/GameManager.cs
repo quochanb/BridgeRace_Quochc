@@ -87,10 +87,14 @@ public class GameManager : Singleton<GameManager>
         if (levelNumber < 2)
         {
             levelNumber++;
-            PlayerPrefs.SetInt(Constants.DATA_LEVEL, levelNumber);
-            UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(coin);
-            OnSetup();
         }
+        else
+        {
+            levelNumber = 0;
+        }
+        PlayerPrefs.SetInt(Constants.DATA_LEVEL, levelNumber);
+        UIManager.Instance.GetUI<CanvasGamePlay>().UpdateCoin(coin);
+        OnSetup();
     }
 
     //goi khi can xu ly choi lai

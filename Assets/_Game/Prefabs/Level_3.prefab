@@ -33971,6 +33971,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8196575927883883186, guid: 88cf792e69283b44984013b2119b3fe6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5dcf5c15488eae242b70d5df9650c985, type: 2}
+    - target: {fileID: 8196575927974393151, guid: 88cf792e69283b44984013b2119b3fe6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5dcf5c15488eae242b70d5df9650c985, type: 2}
     - target: {fileID: 9202987172247315413, guid: 88cf792e69283b44984013b2119b3fe6, type: 3}
       propertyPath: m_Name
       value: FinishBox
